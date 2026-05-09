@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b7ftnbqq2qpp4"]
+
+[sub_resource type="GDScript" id="GDScript_1akh0"]
+script/source = "extends Node3D
+class_name Camera_Anchor
+@onready var cam:Camera3D = $Camera3D
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta: float) -> void:
+	$RayCast3D.target_position= $RayCast3D.to_local(cam.project_position(get_viewport().get_mouse_position(), 100))
+
+func get_ray_pos() -> Vector3:
+	return to_global($RayCast3D.target_position)
+"
+
+[node name="CameraAnchor" type="Node3D" unique_id=1498911536]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+script = SubResource("GDScript_1akh0")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=602196007]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.196847, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D" unique_id=215189956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.1931012e-09, 0.16455889)
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=1103692850]
+transform = Transform3D(1, 0, 0, 0, 3.5916138, 0, 0, 0, 1, 5.2869584e-24, 3, -5.3290705e-15)
+
+[node name="target" type="Node3D" parent="." unique_id=1123772852]
