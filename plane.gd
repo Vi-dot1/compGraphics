@@ -6,8 +6,8 @@ var can_place = true
 func _place(pos: Vector2):
 	var p:PiecePart = piecePartScene.instantiate()
 	
-	p.pos.x = int(pos.x)/Gameplay.piece_size
-	p.pos.y = int(pos.y)/Gameplay.piece_size
+	p.pos.x = int(pos.x / Gameplay.piece_size)
+	p.pos.y = int(pos.y / Gameplay.piece_size)
 	if pos.x < 0:
 		p.pos.x -= 1
 	if pos.y < 0:

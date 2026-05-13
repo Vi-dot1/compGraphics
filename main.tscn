@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cp6gnad54np6j" path="res://camera.gd" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dhlgov2jnwpqr" path="res://cursor.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cog6si0dmriiv" path="res://planet.tscn" id="5_7mycd"]
+[ext_resource type="PackedScene" path="res://hud.tscn" id="6_hud"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7mycd"]
 panorama = ExtResource("2_lquwl")
@@ -29,18 +30,26 @@ environment = SubResource("Environment_5vw27")
 transform = Transform3D(1, 0, 0, 0, 0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 0, 0)
 
 [node name="cursor" parent="." unique_id=1414730053 instance=ExtResource("3_h2yge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.1838536)
 
 [node name="camMount" type="Node3D" parent="." unique_id=1222027406]
 
 [node name="Camera3D" type="Camera3D" parent="camMount" unique_id=1718443512]
-transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659259, 0, -0.9659259, 0.25881907, 0, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659259, 0, -0.9659259, 0.25881907, 0, 6, -4.9059057)
 script = ExtResource("3_1bvp3")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="camMount/Camera3D" unique_id=969680521]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.1931012e-09, 0.16455889)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018167496, 0.15968943)
 light_energy = 1.5
 spot_range = 4.0
 spot_angle = 41.336697
 
 [node name="Planet" parent="camMount" unique_id=1606943498 instance=ExtResource("5_7mycd")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -27.959991, -24.517662)
+
+[node name="HUD" parent="." instance=ExtResource("6_hud")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 5, 0)
+light_energy = 0.5
+shadow_enabled = true
