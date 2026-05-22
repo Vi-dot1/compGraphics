@@ -14,7 +14,7 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_1")
 size = Vector2(0.1, 0.1)
 
-[node name="PlacementParticles" type="CPUParticles3D"]
+[node name="PlacementParticles" type="CPUParticles3D" unique_id=317957938]
 emitting = false
 amount = 32
 lifetime = 1.5
@@ -22,7 +22,7 @@ one_shot = true
 explosiveness = 1.0
 mesh = SubResource("QuadMesh_1")
 emission_shape = 3
-emission_points = PackedVector3Array(-0.5, 0, 0, 0.5, 0, 0)
+emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0, 1, 0)
 spread = 180.0
 gravity = Vector3(0, -0.5, 0)

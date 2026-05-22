@@ -22,7 +22,7 @@ func _ready() -> void:
 	if hud: hud.update_hand()
 
 func update_cursor_piece():
-	var my_hand = Gameplay.hands[0]
+	var my_hand = Gameplay.hands[Gameplay.current_turn]
 	if my_hand.size() > 0:
 		selected_piece_index = clampi(selected_piece_index, 0, my_hand.size() - 1)
 		cursor.set_piece(my_hand[selected_piece_index])
@@ -33,7 +33,7 @@ func update_cursor_piece():
 # --- Physics / Cursor Movement ---
 
 func _physics_process(_delta: float) -> void:
-	if Gameplay.game_over or Gameplay.current_turn != 0:
+	if Gameplay.game_over:
 		cursor.visible = false
 		return
 	cursor.visible = true
@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 	if hit == null:
 		return
 	
-	var my_hand = Gameplay.hands[0]
+	var my_hand = Gameplay.hands[Gameplay.current_turn]
 	if my_hand.size() == 0:
 		return
 	
@@ -63,7 +63,6 @@ func _physics_process(_delta: float) -> void:
 
 	# --- Subsequent pieces: snap to endpoints ---
 	current_snap = _find_best_snap(hit, data)
-	
 	cursor.free = current_snap.valid
 	cursor._cursor_piece_state_valid(current_snap.valid)
 	
@@ -72,13 +71,6 @@ func _physics_process(_delta: float) -> void:
 		cursor.visual_root.rotation = current_snap.rot
 	else:
 		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
-
-func _update_cursor_position() -> void:
-	var mouse_pos = get_viewport().get_mouse_position()
-	var from = cam.project_ray_origin(mouse_pos)
-	var dir_vec = cam.project_ray_normal(mouse_pos)
-	
-	
 
 func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Dictionary:
 	var best = {"valid": false}
@@ -123,14 +115,13 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 	return best
 
 # --- Input ---
-
 func _unhandled_input(event: InputEvent) -> void:
-	if Gameplay.game_over or Gameplay.current_turn != 0:
+	if Gameplay.game_over:
 		return
 	
 	if event.is_action_pressed("place"):
-		if current_snap.valid and Gameplay.hands[0].size() > 0:
-			var data = Gameplay.hands[0][selected_piece_index]
+		if current_snap.valid and Gameplay.hands[Gameplay.current_turn].size() > 0:
+			var data = Gameplay.hands[Gameplay.current_turn][selected_piece_index]
 			_do_place_piece(data, current_snap)
 	
 	if event.is_action_pressed("next_piece"):
@@ -138,10 +129,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("prev_piece"):
 		change_selection(-1)
 	if event.is_action_pressed("get_piece"):
-		_draw_piece_for_player()
+		_draw_piece()
 
 # --- Placement ---
-
 func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	var pos: Vector3 = snap["pos"]
 	var rot: Vector3 = snap["rot"]
@@ -165,9 +155,6 @@ func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	Gameplay.play_tile(0, data, side if side >= 0 else 0, pos, rot)
 	update_cursor_piece()
 
-	# AI turn
-	if not Gameplay.game_over and Gameplay.current_turn == 1:
-		get_tree().create_timer(1.0).timeout.connect(_ai_turn)
 
 func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, side: int, snap: Dictionary):
 	var b = Basis(Quaternion.from_euler(rot))
@@ -202,111 +189,25 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 		else:
 			right_snap = new_snap
 
-# --- AI ---
 
-func _ai_turn():
-	if Gameplay.game_over:
-		return
-	
-	if Gameplay.current_turn == 0:
-		Gameplay.player_pass()
-		return
-	
-	var valid_moves = Gameplay.get_valid_moves(1)
-	if valid_moves.size() == 0:
-		if Gameplay.boneyard.size() > 0:
-			Gameplay.draw_from_boneyard(1)
-			get_tree().create_timer(0.5).timeout.connect(_ai_turn)
-		else:
-			Gameplay.player_pass()
-			if not Gameplay.game_over:
-				update_cursor_piece()
-		return
-
-	var tile = valid_moves.pick_random()
-
-	# Try to place on either endpoint
-	for snap_info in [{"snap": left_snap, "side": 0}, {"snap": right_snap, "side": 1}]:
-		var snap: Dictionary = snap_info.snap
-		if snap.is_empty():
-			continue
-
-		var match_v1 = (tile.v1 == snap.value)
-		var match_v2 = (tile.v2 == snap.value)
-		if not match_v1 and not match_v2:
-			continue
-
-		var normal: Vector3 = snap["normal"]
-		var base_rot_y = atan2(-normal.z, normal.x)
-		var rot: Vector3
-		var matched_half: int
-
-		if tile.is_double():
-			rot = Vector3(0, base_rot_y + PI/2, 0)
-			matched_half = 0
-			var center = snap["pos"] + normal * 0.5
-			var ai_snap = {
-				"valid": true, "pos": center, "rot": rot,
-				"side": snap_info["side"], "matched_half": matched_half,
-				"normal": normal
-			}
-			_execute_ai_move(tile, ai_snap)
-		else:
-			if match_v1:
-				rot = Vector3(0, base_rot_y, 0)
-				matched_half = 0
-			else:
-				rot = Vector3(0, base_rot_y + PI, 0)
-				matched_half = 1
-			var center = snap["pos"] + normal * 1.0
-			var ai_snap = {
-				"valid": true, "pos": center, "rot": rot,
-				"side": snap_info["side"], "matched_half": matched_half,
-				"normal": normal
-			}
-			_execute_ai_move(tile, ai_snap)
-		return
-
-func _execute_ai_move(data: Gameplay.DominoData, snap: Dictionary):
-	var pos: Vector3 = snap["pos"]
-	var rot: Vector3 = snap["rot"]
-	var side: int = snap["side"]
-
-	var scene = load("res://domino_piece.tscn")
-	var piece = scene.instantiate()
-	add_child(piece)
-	piece.position = pos
-	piece.rotation = rot
-	piece.setup(data)
-
-	_spawn_particles(pos, rot)
-	cam.shake()
-
-	# Update snap points BEFORE play_tile
-	_update_snap_points(data, pos, rot, side, snap)
-	# Update game state
-	Gameplay.play_tile(1, data, side, pos, rot)
-	update_cursor_piece()
-
-func _draw_piece_for_player():
+func _draw_piece():
 	var tile = Gameplay.draw_from_boneyard(0)
 	if tile:
 		update_cursor_piece()
 
 func _spawn_particles(pos: Vector3, rot: Vector3):
-	var part_scene = load("res://placement_particles.tscn")
-	var particles = part_scene.instantiate()
+	var particles = Global._create_placement_particles(pos, rot)
 	add_child(particles)
-	particles.position = pos
-	particles.rotation = rot
 	particles.emitting = true
+	
 	get_tree().create_timer(2.0).timeout.connect(particles.queue_free)
 
 func change_selection(dir: int):
-	var my_hand = Gameplay.hands[0]
+	var my_hand = Gameplay.hands[Gameplay.current_turn]
 	if my_hand.size() == 0:
 		return
 	selected_piece_index = (selected_piece_index + dir) % my_hand.size()
 	if selected_piece_index < 0:
 		selected_piece_index += my_hand.size()
+	
 	update_cursor_piece()

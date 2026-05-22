@@ -12,30 +12,26 @@ func _process(_delta):
 
 func update_status():
 	if Gameplay.game_over:
-		if Gameplay.winner_id == 0: status_label.text = "YOU WIN! (Domino!)"
-		elif Gameplay.winner_id == 1: status_label.text = "AI WINS!"
-		else: status_label.text = "DRAW / BLOCKED"
-	else:
-		if Gameplay.current_turn == 0:
-			if Gameplay.board_pieces.size() > 0:
-				status_label.text = "YOUR TURN  |  Open: [" + str(Gameplay.open_ends[0]) + "] - [" + str(Gameplay.open_ends[1]) + "]"
-			else:
-				status_label.text = "YOUR TURN  |  Place any tile"
-		else:
-			status_label.text = "AI TURN..."
+		if Gameplay.winner_id == -1: status_label.text = "EMPATE / BLOQUEO"
+		else: status_label.text = "JUGADOR "+ str(Gameplay.winner_id+1) + " GANO"
+		return
 	
-	boneyard_label.text = "Boneyard: " + str(Gameplay.boneyard.size())
+	if Gameplay.board_pieces.size() > 0:
+		status_label.text = "TURNO DE JUGADOR " + str(Gameplay.current_turn+1) + " |  Open: [" + str(Gameplay.open_ends[0]) + "] - [" + str(Gameplay.open_ends[1]) + "]"
+	else:
+		status_label.text = "PRIMER TURNO, JUGADOR " + str(Gameplay.current_turn+1)
+	
+	boneyard_label.text = "Piezas en Huesera: " + str(Gameplay.boneyard.size())
 
 func update_hand():
 	# Clear existing
 	for child in container.get_children():
 		child.queue_free()
 	
-	for i in range(Gameplay.hands[0].size()):
-		var data = Gameplay.hands[0][i]
-		var is_selected = (i == get_parent().selected_piece_index)
-		
-		var piece_ui = create_domino_ui(data, is_selected)
+	var  first:bool = 0
+	for data in Gameplay.hands[Gameplay.current_turn]:
+		var piece_ui = create_domino_ui(data, first)
+		first = false
 		container.add_child(piece_ui)
 
 func create_domino_ui(data: Gameplay.DominoData, selected: bool) -> Control:
