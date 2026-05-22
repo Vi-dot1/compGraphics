@@ -1,17 +1,10 @@
 extends Area3D
 class_name Cursor
 
-@export var place_color: Color = Color(0, 1, 0, 0.5)
-@export var block_color: Color = Color(1, 0, 0, 0.5)
-
 @onready var visual_root = $Node3D
 var current_piece_visual: DominoPiece = null
 var free: bool = true
 var rotation_index: int = 0
-
-func _ready() -> void:
-	for child in visual_root.get_children():
-		child.queue_free()
 
 func set_piece(data: Gameplay.DominoData):
 	if current_piece_visual:
@@ -27,6 +20,15 @@ func set_piece(data: Gameplay.DominoData):
 	current_piece_visual.setup(data)
 	# Disable collision on cursor preview
 	current_piece_visual.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _cursor_piece_state_valid(valid: bool):
+	if current_piece_visual == null:
+		return
+	
+	var mat = current_piece_visual.mesh_instance.get_surface_override_material(0)
+	if mat:
+		mat.set_shader_parameter("edge_color", Color.GREEN if valid else Color.RED)
+		mat.set_shader_parameter("emission_strength", 2.0)
 
 func rotate_piece():
 	rotation_index = (rotation_index + 1) % 4

@@ -49,8 +49,11 @@ func init_game():
 	
 	determine_starter()
 
-# Determina jugada inicial
 func determine_starter():
+	return -1
+
+# Determina jugada inicial
+func _determine_starter():
 	var best_double = -1
 	var starter = 0
 	
@@ -122,7 +125,8 @@ func draw_piece(player_id: int) -> DominoData:
 	return null
 
 func advance_turn():
-	current_turn = (current_turn + 1) % hands.size()
+	current_turn += 1
+	current_turn %= hands.size()
 
 func player_pass():
 	consecutive_passes += 1

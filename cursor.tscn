@@ -35,8 +35,6 @@ material = SubResource("StandardMaterial3D_fsq4c")
 
 [node name="cursor" type="Area3D" unique_id=1785766271]
 script = ExtResource("1_fsq4c")
-place_color = Color(0, 0.69803923, 0, 1)
-block_color = Color(0.7058824, 0, 0, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1913393062]
 shape = SubResource("CapsuleShape3D_fsq4c")
@@ -49,5 +47,5 @@ autoplay = &"cursor_idle"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71152294, 0)
 
 [node name="cursorMesh" type="MeshInstance3D" parent="Node3D" unique_id=363827111]
-transform = Transform3D(0.008502814, 8.724827e-08, -0.26598942, 0, -0.57786787, -4.016667e-08, -0.6549103, 1.1327593e-09, -0.0034533867, 0, 0, 0)
+transform = Transform3D(0.008502814, 8.724827e-08, -0.26598942, 0, -0.57786787, -4.016667e-08, -0.6549103, 1.1327593e-09, -0.0034533867, 0, 1.0163629, 0)
 mesh = SubResource("PrismMesh_ydl3m")

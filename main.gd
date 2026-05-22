@@ -17,7 +17,6 @@ var right_snap: Dictionary = {}
 var current_snap: Dictionary = {"valid": false}
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Gameplay.init_game()
 	update_cursor_piece()
 	if hud: hud.update_hand()
@@ -38,40 +37,50 @@ func _physics_process(_delta: float) -> void:
 		cursor.visible = false
 		return
 	cursor.visible = true
-
+	
 	var mouse_pos = get_viewport().get_mouse_position()
 	var from = cam.project_ray_origin(mouse_pos)
 	var dir_vec = cam.project_ray_normal(mouse_pos)
 	var hit = Plane(Vector3.UP, 0).intersects_ray(from, from + dir_vec * 1000)
 	if hit == null:
 		return
-
+	
 	var my_hand = Gameplay.hands[0]
 	if my_hand.size() == 0:
 		return
+	
 	var data = my_hand[selected_piece_index]
-
+	
+	var sv = 1
+	
 	# --- First piece: free placement ---
 	if Gameplay.board_pieces.size() == 0:
-		var sv = 0.5
+		
 		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
 		current_snap = {"valid": true, "side": -1, "pos": cursor.position, "rot": cursor.visual_root.rotation}
 		cursor.free = true
-		_set_cursor_color(true)
+		cursor._cursor_piece_state_valid(true)
+		
 		return
 
 	# --- Subsequent pieces: snap to endpoints ---
 	current_snap = _find_best_snap(hit, data)
+	
+	cursor.free = current_snap.valid
+	cursor._cursor_piece_state_valid(current_snap.valid)
+	
 	if current_snap.valid:
 		cursor.position = current_snap.pos
 		cursor.visual_root.rotation = current_snap.rot
-		cursor.free = true
-		_set_cursor_color(true)
 	else:
-		var sv = 0.5
 		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
-		cursor.free = false
-		_set_cursor_color(false)
+
+func _update_cursor_position() -> void:
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = cam.project_ray_origin(mouse_pos)
+	var dir_vec = cam.project_ray_normal(mouse_pos)
+	
+	
 
 func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Dictionary:
 	var best = {"valid": false}
@@ -114,14 +123,6 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 		
 		best_dist = dist
 	return best
-
-func _set_cursor_color(valid: bool):
-	if cursor.current_piece_visual == null:
-		return
-	var mat = cursor.current_piece_visual.mesh_instance.get_surface_override_material(0)
-	if mat:
-		mat.set_shader_parameter("edge_color", Color.GREEN if valid else Color.RED)
-		mat.set_shader_parameter("emission_strength", 2.0)
 
 # --- Input ---
 
@@ -206,9 +207,13 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 # --- AI ---
 
 func _ai_turn():
-	if Gameplay.game_over or Gameplay.current_turn == 0:
+	if Gameplay.game_over:
 		return
-
+	
+	if Gameplay.current_turn == 0:
+		Gameplay.player_pass()
+		return
+	
 	var valid_moves = Gameplay.get_valid_moves(1)
 	if valid_moves.size() == 0:
 		if Gameplay.boneyard.size() > 0:
