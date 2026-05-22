@@ -50,9 +50,7 @@ func _physics_process(_delta: float) -> void:
 		return
 	
 	var data = my_hand[selected_piece_index]
-	
 	var sv = 1
-	
 	# --- First piece: free placement ---
 	if Gameplay.board_pieces.size() == 0:
 		

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dm1p2cew6y1qy"]
 
-[ext_resource type="Script" path="res://domino_piece.gd" id="1_script"]
-[ext_resource type="Shader" path="res://domino_shader.gdshader" id="2_shader"]
+[ext_resource type="Script" uid="uid://cjxuq5idww44y" path="res://scripts/domino_piece.gd" id="1_script"]
+[ext_resource type="Shader" uid="uid://18rnsss8rpag" path="res://domino_shader.gdshader" id="2_shader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1"]
 render_priority = 0

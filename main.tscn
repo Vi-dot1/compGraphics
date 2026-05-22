@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dp03yewmblyw1" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cctmurv6swcch" path="res://plane.tscn" id="2_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://2am1jamblrst" path="res://assets/textures/Scene_-_Root_diffuse.jpeg" id="2_lquwl"]
-[ext_resource type="Script" uid="uid://cp6gnad54np6j" path="res://camera.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://cp6gnad54np6j" path="res://scripts/camera.gd" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dhlgov2jnwpqr" path="res://cursor.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cog6si0dmriiv" path="res://planet.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://bv8v7u8v7u8v" path="res://hud.tscn" id="6_hud"]
