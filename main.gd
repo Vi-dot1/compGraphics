@@ -113,7 +113,6 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 			best = {"valid": true, "pos": center, "rot": rot, "side": side, "matched_half": matched_half, "normal": normal}
 		
 		best_dist = dist
-
 	return best
 
 func _set_cursor_color(valid: bool):
@@ -129,20 +128,17 @@ func _set_cursor_color(valid: bool):
 func _unhandled_input(event: InputEvent) -> void:
 	if Gameplay.game_over or Gameplay.current_turn != 0:
 		return
-
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if current_snap.valid and Gameplay.hands[0].size() > 0:
-				var data = Gameplay.hands[0][selected_piece_index]
-				_do_place_piece(data, current_snap)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			cursor.rotate_piece()
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			change_selection(1)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			change_selection(-1)
-
-	elif event is InputEventKey and event.pressed and event.keycode == KEY_SPACE:
+	
+	if event.is_action_pressed("place"):
+		if current_snap.valid and Gameplay.hands[0].size() > 0:
+			var data = Gameplay.hands[0][selected_piece_index]
+			_do_place_piece(data, current_snap)
+	
+	if event.is_action_pressed("next_piece"):
+		change_selection(1)
+	if event.is_action_pressed("prev_piece"):
+		change_selection(-1)
+	if event.is_action_pressed("get_piece"):
 		_draw_piece_for_player()
 
 # --- Placement ---
@@ -163,14 +159,11 @@ func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	# Effects
 	_spawn_particles(pos, rot)
 	cam.shake()
-
+	
 	# Update snap points BEFORE play_tile (which changes open_ends)
 	_update_snap_points(data, pos, rot, side, snap)
-
 	# Update game state (Now handle board_pieces and hands in gameplay.gd)
 	Gameplay.play_tile(0, data, side if side >= 0 else 0, pos, rot)
-
-	_update_camera_view()
 	update_cursor_piece()
 
 	# AI turn
@@ -290,8 +283,6 @@ func _execute_ai_move(data: Gameplay.DominoData, snap: Dictionary):
 	_update_snap_points(data, pos, rot, side, snap)
 	# Update game state
 	Gameplay.play_tile(1, data, side, pos, rot)
-
-	_update_camera_view()
 	update_cursor_piece()
 
 func _draw_piece_for_player():
@@ -307,25 +298,6 @@ func _spawn_particles(pos: Vector3, rot: Vector3):
 	particles.rotation = rot
 	particles.emitting = true
 	get_tree().create_timer(2.0).timeout.connect(particles.queue_free)
-
-func _update_camera_view():
-	if Gameplay.board_pieces.size() == 0:
-		return
-	var margin = 150.0
-	var vp = get_viewport().size
-	var needs = false
-	for p in Gameplay.board_pieces:
-		var sp = cam.unproject_position(p.pos)
-		if sp.x < margin or sp.x > vp.x - margin or sp.y < margin or sp.y > vp.y - margin:
-			needs = true
-			break
-	if needs:
-		var mn = Vector3(999, 0, 999)
-		var mx = Vector3(-999, 0, -999)
-		for p in Gameplay.board_pieces:
-			mn.x = min(mn.x, p.pos.x - 1); mn.z = min(mn.z, p.pos.z - 1)
-			mx.x = max(mx.x, p.pos.x + 1); mx.z = max(mx.z, p.pos.z + 1)
-		cam.focus_on((mn + mx) / 2, max(mx.x - mn.x, mx.z - mn.z))
 
 func change_selection(dir: int):
 	var my_hand = Gameplay.hands[0]

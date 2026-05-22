@@ -16,6 +16,7 @@ class DominoData:
 # --- State Variables ---
 var boneyard: Array[DominoData] = []
 var hands: Dictionary = {0: [], 1: []}
+
 var board_pieces: Array = []
 var open_ends: Array[int] = [-1, -1]
 var current_turn: int = 0
@@ -48,34 +49,47 @@ func init_game():
 	
 	determine_starter()
 
+# Determina jugada inicial
 func determine_starter():
 	var best_double = -1
 	var starter = 0
+	
+	# Determina que jugador posee el doble mayor
 	for p_id in hands:
 		for tile in hands[p_id]:
 			if tile.is_double() and tile.v1 > best_double:
 				best_double = tile.v1
 				starter = p_id
+	
 	if best_double != -1:
 		current_turn = starter
 		return
+	
+	# Si de casualidad, ningun juegador tiene un doble
+	# se elige el jugador con la pieza de mayor suma
 	var best_sum = -1
 	for p_id in hands:
 		for tile in hands[p_id]:
 			if tile.get_sum() > best_sum:
 				best_sum = tile.get_sum()
 				starter = p_id
+	
 	current_turn = starter
 
+# Retorna la lista de piezas que son jugables
 func get_valid_moves(player_id: int) -> Array:
 	var valid = []
 	if board_pieces.size() == 0:
 		return hands[player_id].duplicate()
+	
 	for tile in hands[player_id]:
-		if tile.v1 == open_ends[0] or tile.v2 == open_ends[0] or \
-		   tile.v1 == open_ends[1] or tile.v2 == open_ends[1]:
+		if tile.v1 == open_ends[0] or tile.v2 == open_ends[0]:
 			valid.append(tile)
+		elif tile.v1 == open_ends[1] or tile.v2 == open_ends[1]:
+			valid.append(tile)
+	
 	return valid
+
 
 func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> bool:
 	if board_pieces.size() == 0:
@@ -100,7 +114,7 @@ func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vecto
 		advance_turn()
 	return true
 
-func draw_from_boneyard(player_id: int) -> DominoData:
+func draw_piece(player_id: int) -> DominoData:
 	if boneyard.size() > 0:
 		var tile = boneyard.pop_back()
 		hands[player_id].append(tile)
