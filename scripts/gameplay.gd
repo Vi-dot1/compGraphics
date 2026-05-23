@@ -49,11 +49,11 @@ func init_game():
 	
 	determine_starter()
 
-func determine_starter():
+func _determine_starter():
 	return -1
 
 # Determina jugada inicial
-func _determine_starter():
+func determine_starter():
 	var best_double = -1
 	var starter = 0
 	
@@ -95,32 +95,34 @@ func get_valid_moves(player_id: int) -> Array:
 
 
 func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> bool:
+	var piece_played:bool = false
+	
 	if board_pieces.size() == 0:
 		open_ends = [tile.v1, tile.v2]
-	else:
-		if side == 0:
-			if tile.v1 == open_ends[0]: open_ends[0] = tile.v2
-			elif tile.v2 == open_ends[0]: open_ends[0] = tile.v1
-			else: return false
-		else:
-			if tile.v1 == open_ends[1]: open_ends[1] = tile.v2
-			elif tile.v2 == open_ends[1]: open_ends[1] = tile.v1
-			else: return false
+		piece_played = true
 	
-	board_pieces.append({"data": tile, "pos": pos, "rot": rot})
-	hands[player_id].erase(tile)
-	consecutive_passes = 0
+	if tile.v1 == open_ends[side]:
+		open_ends[0] = tile.v2
+		piece_played = true
+	elif tile.v2 == open_ends[side]: 
+		open_ends[0] = tile.v1
+		piece_played = true
+	
+	if piece_played:
+		board_pieces.append({"data": tile, "pos": pos, "rot": rot})
+		hands[player_id].erase(tile)
+		consecutive_passes = 0
 	
 	if hands[player_id].size() == 0:
 		end_game(player_id, "Domino!")
 	else:
 		advance_turn()
-	return true
+	return piece_played
 
-func draw_piece(player_id: int) -> DominoData:
+func draw_piece() -> DominoData:
 	if boneyard.size() > 0:
 		var tile = boneyard.pop_back()
-		hands[player_id].append(tile)
+		hands[current_turn].append(tile)
 		return tile
 	return null
 

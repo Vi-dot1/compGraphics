@@ -2,7 +2,9 @@ extends Node3D
 
 @onready var cam = $camMount/Camera3D
 @onready var cursor: Cursor = $cursor
+@onready var board:Board = $plane
 @onready var hud = $HUD
+@onready var planet = $camMount/Planet
 
 var selected_piece_index: int = 0
 
@@ -19,7 +21,10 @@ var current_snap: Dictionary = {"valid": false}
 func _ready() -> void:
 	Gameplay.init_game()
 	update_cursor_piece()
-	if hud: hud.update_hand()
+	if hud:
+		hud.update_hand()
+	
+	Global.planet_center = planet.global_position
 
 func update_cursor_piece():
 	var my_hand = Gameplay.hands[Gameplay.current_turn]
@@ -51,10 +56,12 @@ func _physics_process(_delta: float) -> void:
 	
 	var data = my_hand[selected_piece_index]
 	var sv = 1
+	
 	# --- First piece: free placement ---
 	if Gameplay.board_pieces.size() == 0:
 		
 		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
+		
 		current_snap = {"valid": true, "side": -1, "pos": cursor.position, "rot": cursor.visual_root.rotation}
 		cursor.free = true
 		cursor._cursor_piece_state_valid(true)
@@ -75,7 +82,7 @@ func _physics_process(_delta: float) -> void:
 func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Dictionary:
 	var best = {"valid": false}
 	var best_dist = 3.0
-
+	
 	for snap_data in [{"snap": left_snap, "side": 0}, {"snap": right_snap, "side": 1}]:
 		var snap: Dictionary = snap_data.snap
 		if snap.is_empty():
@@ -90,11 +97,11 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 		var match_v2 = (data.v2 == snap["value"])
 		if not match_v1 and not match_v2:
 			continue
-
+	
 		var base_rot_y = atan2(-normal.z, normal.x)
 		var rot: Vector3
 		var matched_half: int
-
+	
 		if data.is_double():
 			# Doubles are placed crosswise (90 degrees to the chain)
 			rot = Vector3(0, base_rot_y + PI/2, 0)
@@ -129,30 +136,28 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("prev_piece"):
 		change_selection(-1)
 	if event.is_action_pressed("get_piece"):
-		_draw_piece()
+		Gameplay.draw_piece()
+		hud.update_hand()
 
 # --- Placement ---
 func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
+	
+	# Spawn 3D piece
+	board.place(data, snap)
+	
 	var pos: Vector3 = snap["pos"]
 	var rot: Vector3 = snap["rot"]
 	var side: int = snap["side"]
-
-	# Spawn 3D piece
-	var scene = load("res://domino_piece.tscn")
-	var piece = scene.instantiate()
-	add_child(piece)
-	piece.position = pos
-	piece.rotation = rot
-	piece.setup(data)
-
+	
 	# Effects
 	_spawn_particles(pos, rot)
 	cam.shake()
 	
 	# Update snap points BEFORE play_tile (which changes open_ends)
 	_update_snap_points(data, pos, rot, side, snap)
+	
 	# Update game state (Now handle board_pieces and hands in gameplay.gd)
-	Gameplay.play_tile(0, data, side if side >= 0 else 0, pos, rot)
+	Gameplay.play_tile(Gameplay.current_turn, data, side if side >= 0 else 0, pos, rot)
 	update_cursor_piece()
 
 
@@ -189,11 +194,6 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 		else:
 			right_snap = new_snap
 
-
-func _draw_piece():
-	var tile = Gameplay.draw_from_boneyard(0)
-	if tile:
-		update_cursor_piece()
 
 func _spawn_particles(pos: Vector3, rot: Vector3):
 	var particles = Global._create_placement_particles(pos, rot)

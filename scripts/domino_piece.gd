@@ -7,6 +7,12 @@ var v1: int = 0
 var v2: int = 0
 var orientation: int = 0 # 0: horizontal, 1: vertical
 
+func _ready():
+	update_visuals()
+
+func _process(_delta: float) -> void:
+	look_at(Global.planet_center, Vector3(0, 1, 0))
+
 func setup(data: Gameplay.DominoData):
 	v1 = data.v1
 	v2 = data.v2
@@ -28,6 +34,3 @@ func update_visuals():
 	unique_mat.set_shader_parameter("val1", v1)
 	unique_mat.set_shader_parameter("val2", v2)
 	unique_mat.set_shader_parameter("emission_strength", 0.0)
-
-func _ready():
-	update_visuals()

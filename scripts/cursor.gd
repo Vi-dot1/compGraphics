@@ -19,7 +19,7 @@ func set_piece(data: Gameplay.DominoData):
 	visual_root.add_child(current_piece_visual)
 	current_piece_visual.setup(data)
 	# Disable collision on cursor preview
-	current_piece_visual.process_mode = Node.PROCESS_MODE_DISABLED
+	current_piece_visual.set_physics_process(false)
 
 func _cursor_piece_state_valid(valid: bool):
 	if current_piece_visual == null:

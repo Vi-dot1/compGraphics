@@ -8,3 +8,5 @@ func _create_placement_particles(pos: Vector3, rot: Vector3) -> Node3D:
 	particles.rotation = rot
 	
 	return particles
+
+var planet_center:Vector3 = Vector3.ZERO
