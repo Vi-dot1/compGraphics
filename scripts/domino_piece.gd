@@ -2,6 +2,7 @@ extends StaticBody3D
 class_name DominoPiece
 
 @onready var mesh_instance = $MeshInstance3D
+@onready var ray_normal:RayCast3D = $RayCast3D
 
 var v1: int = 0
 var v2: int = 0

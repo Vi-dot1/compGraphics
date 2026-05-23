@@ -1,10 +1,10 @@
 extends Node3D
 
-@onready var cam = $camMount/Camera3D
+@onready var cameraRot = $cam
 @onready var cursor: Cursor = $cursor
-@onready var board:Board = $plane
+@onready var board:Board = $Planet/plane
 @onready var hud = $HUD
-@onready var planet = $camMount/Planet
+@onready var planet = $Planet
 
 var selected_piece_index: int = 0
 
@@ -24,7 +24,11 @@ func _ready() -> void:
 	if hud:
 		hud.update_hand()
 	
+	planet.radius = 10
+	cameraRot.cam_distance = planet.radius + 10
+	
 	Global.planet_center = planet.global_position
+	Global.planet_radius = planet.radius
 
 func update_cursor_piece():
 	var my_hand = Gameplay.hands[Gameplay.current_turn]
@@ -44,9 +48,9 @@ func _physics_process(_delta: float) -> void:
 	cursor.visible = true
 	
 	var mouse_pos = get_viewport().get_mouse_position()
-	var from = cam.project_ray_origin(mouse_pos)
-	var dir_vec = cam.project_ray_normal(mouse_pos)
-	var hit = Plane(Vector3.UP, 0).intersects_ray(from, from + dir_vec * 1000)
+	var from = cameraRot.cam.project_ray_origin(mouse_pos)
+	var dir_vec = cameraRot.cam.project_ray_normal(mouse_pos)
+	var hit = Plane(Vector3.UP, board.global_position).intersects_ray(from, from + dir_vec * 1000)
 	if hit == null:
 		return
 	
@@ -151,7 +155,7 @@ func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	
 	# Effects
 	_spawn_particles(pos, rot)
-	cam.shake()
+	cameraRot.shake()
 	
 	# Update snap points BEFORE play_tile (which changes open_ends)
 	_update_snap_points(data, pos, rot, side, snap)

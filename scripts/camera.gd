@@ -1,6 +1,13 @@
-extends Camera3D
+extends Node3D
 
 @export var cam_speed:float = 2.2
+@onready var cam = $Camera3D
+
+var cam_distance:float = 20 :
+	set(val):
+		cam_distance = val
+		cam.position.z = val
+
 var dir:Vector2 = Vector2.ZERO
 var shake_amount: float = 0.0
 
@@ -12,20 +19,16 @@ func _ready():
 	target_height = position.y
 
 func _physics_process(delta: float) -> void:
-	# Manual movement
-	target_pos.x += dir.x*delta*cam_speed
-	target_pos.z += dir.y*delta*cam_speed
-	
-	# Smooth follow
-	position = position.lerp(Vector3(target_pos.x, target_height, target_pos.z), delta * 5.0)
+	rotate_object_local(Vector3(1,0,0), dir.y*(cam_speed/Global.planet_radius)*delta)
+	rotate_object_local(Vector3(0,1,0), dir.x*(cam_speed/Global.planet_radius)*delta)
 	
 	if shake_amount > 0:
-		h_offset = randf_range(-shake_amount, shake_amount)
-		v_offset = randf_range(-shake_amount, shake_amount)
+		cam.h_offset = randf_range(-shake_amount, shake_amount)
+		cam.v_offset = randf_range(-shake_amount, shake_amount)
 		shake_amount = lerp(shake_amount, 0.0, delta * 10.0)
 	else:
-		h_offset = 0
-		v_offset = 0
+		cam.h_offset = 0
+		cam.v_offset = 0
 
 func shake(amount: float = 0.2):
 	shake_amount = amount

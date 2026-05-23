@@ -7,9 +7,10 @@ func place(data: Gameplay.DominoData, snap: Dictionary):
 	var piece:DominoPiece = pieceScene.instantiate()
 	
 	add_child(piece)
-	piece.position = snap["pos"]
-	piece.rotation = snap["rot"]
 	piece.setup(data)
+	
+	piece.position = snap["pos"]
+	piece.mesh_instance.rotation -= snap["rot"]
 	
 	can_place = false
 	await get_tree().create_timer(0.2).timeout

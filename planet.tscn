@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://cog6si0dmriiv"]
 
 [ext_resource type="Texture2D" uid="uid://ccght43emsfu7" path="res://assets/textures/planets/mercury.jpg" id="1_1odxm"]
+[ext_resource type="Script" uid="uid://dahm7h1ehi56g" path="res://planet.gd" id="1_mtr83"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtr83"]
 albedo_texture = ExtResource("1_1odxm")
 
 [sub_resource type="SphereMesh" id="SphereMesh_jcv8b"]
 material = SubResource("StandardMaterial3D_mtr83")
+radius = 1.0
+height = 2.0
 
 [sub_resource type="Animation" id="Animation_jcv8b"]
 resource_name = "orbibing"
@@ -31,9 +34,9 @@ _data = {
 }
 
 [node name="Planet" type="Node3D" unique_id=1606943498]
+script = ExtResource("1_mtr83")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2046229582]
-transform = Transform3D(39.333725, 0, 30.868399, 0, 50, 0, -30.868399, 0, 39.333725, 0, 0, 0)
 mesh = SubResource("SphereMesh_jcv8b")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="MeshInstance3D" unique_id=1849524493]
