@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dhlgov2jnwpqr"]
 
 [ext_resource type="Script" uid="uid://bsbakesi7nuqi" path="res://scripts/cursor.gd" id="1_fsq4c"]
+[ext_resource type="PackedScene" uid="uid://dm1p2cew6y1qy" path="res://domino_piece.tscn" id="2_5l68f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fsq4c"]
 radius = 0.36035156
@@ -49,3 +50,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71152294, 0)
 [node name="cursorMesh" type="MeshInstance3D" parent="Node3D" unique_id=363827111]
 transform = Transform3D(0.008502814, 8.724827e-08, -0.26598942, 0, -0.57786787, -4.016667e-08, -0.6549103, 1.1327593e-09, -0.0034533867, 0, 1.0163629, 0)
 mesh = SubResource("PrismMesh_ydl3m")
+
+[node name="DominoPiece" parent="." unique_id=731853058 instance=ExtResource("2_5l68f")]

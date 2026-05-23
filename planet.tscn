@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cog6si0dmriiv"]
 
 [ext_resource type="Texture2D" uid="uid://ccght43emsfu7" path="res://assets/textures/planets/mercury.jpg" id="1_1odxm"]
-[ext_resource type="Script" uid="uid://dahm7h1ehi56g" path="res://planet.gd" id="1_mtr83"]
+[ext_resource type="Script" uid="uid://dahm7h1ehi56g" path="res://scripts/planet.gd" id="1_mtr83"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtr83"]
 albedo_texture = ExtResource("1_1odxm")

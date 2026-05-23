@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var cameraRot = $cam
 @onready var cursor: Cursor = $cursor
-@onready var board:Board = $Planet/plane
+@onready var board:Board = $cam/plane
 @onready var hud = $HUD
 @onready var planet = $Planet
 
@@ -47,10 +47,7 @@ func _physics_process(_delta: float) -> void:
 		return
 	cursor.visible = true
 	
-	var mouse_pos = get_viewport().get_mouse_position()
-	var from = cameraRot.cam.project_ray_origin(mouse_pos)
-	var dir_vec = cameraRot.cam.project_ray_normal(mouse_pos)
-	var hit = Plane(Vector3.UP, board.global_position).intersects_ray(from, from + dir_vec * 1000)
+	var hit = board.get_position_on_radius(Vector2.ZERO)
 	if hit == null:
 		return
 	
@@ -64,7 +61,7 @@ func _physics_process(_delta: float) -> void:
 	# --- First piece: free placement ---
 	if Gameplay.board_pieces.size() == 0:
 		
-		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
+		cursor.position = round(hit)
 		
 		current_snap = {"valid": true, "side": -1, "pos": cursor.position, "rot": cursor.visual_root.rotation}
 		cursor.free = true
@@ -81,7 +78,8 @@ func _physics_process(_delta: float) -> void:
 		cursor.position = current_snap.pos
 		cursor.visual_root.rotation = current_snap.rot
 	else:
-		cursor.position = Vector3(round(hit.x / sv) * sv, 0, round(hit.z / sv) * sv)
+		# round(hit/sv)
+		cursor.position = round(hit)
 
 func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Dictionary:
 	var best = {"valid": false}
@@ -91,21 +89,22 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 		var snap: Dictionary = snap_data.snap
 		if snap.is_empty():
 			continue
+		
 		var dist = mouse_world.distance_to(snap["pos"])
 		if dist >= best_dist:
 			continue
-
+		
 		var side: int = snap_data.side
 		var normal: Vector3 = snap["normal"]
 		var match_v1 = (data.v1 == snap["value"])
 		var match_v2 = (data.v2 == snap["value"])
 		if not match_v1 and not match_v2:
 			continue
-	
+		
 		var base_rot_y = atan2(-normal.z, normal.x)
 		var rot: Vector3
 		var matched_half: int
-	
+		
 		if data.is_double():
 			# Doubles are placed crosswise (90 degrees to the chain)
 			rot = Vector3(0, base_rot_y + PI/2, 0)
@@ -182,21 +181,22 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 			"value": data.v2,
 			"normal": b * Vector3(1, 0, 0)
 		}
+		return
+	
+	# Subsequent piece: update the endpoint that was connected
+	var normal: Vector3 = snap["normal"]
+	var matched_half: int = snap.get("matched_half", 0)
+	var exposed_value = data.v2 if matched_half == 0 else data.v1
+	# If we just placed a double, the new edge is only 0.5 away from center
+	# If we placed a standard piece, the new edge is 1.0 away from center
+	var step = 0.5 if data.is_double() else 1.0
+	var new_edge_pos = pos + normal * step
+	var new_snap = {"pos": new_edge_pos, "value": exposed_value, "normal": normal}
+	
+	if side == 0:
+		left_snap = new_snap
 	else:
-		# Subsequent piece: update the endpoint that was connected
-		var normal: Vector3 = snap["normal"]
-		var matched_half: int = snap.get("matched_half", 0)
-		var exposed_value = data.v2 if matched_half == 0 else data.v1
-		# If we just placed a double, the new edge is only 0.5 away from center
-		# If we placed a standard piece, the new edge is 1.0 away from center
-		var step = 0.5 if data.is_double() else 1.0
-		var new_edge_pos = pos + normal * step
-		var new_snap = {"pos": new_edge_pos, "value": exposed_value, "normal": normal}
-
-		if side == 0:
-			left_snap = new_snap
-		else:
-			right_snap = new_snap
+		right_snap = new_snap
 
 
 func _spawn_particles(pos: Vector3, rot: Vector3):
