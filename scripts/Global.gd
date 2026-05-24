@@ -4,10 +4,9 @@ extends Node
 
 var piece_color:Color = Color(0.056, 0.07, 0.304, 0.8)
 
-func _create_placement_particles(pos: Vector3, rot: Vector3) -> Node3D:
+func _create_placement_particles(pos: Vector3) -> Node3D:
 	var particles = placement_particles_scn.instantiate()
 	particles.position = pos
-	#particles.rotation = rot
 	return particles
 
 var planet_center:Vector3 = Vector3.ZERO

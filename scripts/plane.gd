@@ -1,4 +1,4 @@
-extends Area3D
+extends Node3D
 class_name Board
 @onready var pieceScene = preload("uid://dm1p2cew6y1qy")
 
@@ -26,7 +26,7 @@ func get_position_on_radius(pos:Vector2):
 	return dir*Global.planet_radius*closeness_to_center
 
 var can_place = true
-func place(data: Gameplay.DominoData, snap: Dictionary):
+func place(data: Gameplay.DominoData, snap: Dictionary, horizontal:bool = true):
 	var piece:DominoPiece = pieceScene.instantiate()
 	
 	add_child(piece)
@@ -34,8 +34,15 @@ func place(data: Gameplay.DominoData, snap: Dictionary):
 	
 	piece.global_position = snap["pos"]
 	piece.top_level = true
-	
 	piece.look_at(self.global_position)
+	
+	if not horizontal:
+		piece.rotation_degrees.z += 90
+		if snap["side"]:
+			pass
+		else:
+			pass
+	
 	piece.rotate_visual(snap["rot"])
 	
 	# Get piece ref

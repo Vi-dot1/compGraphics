@@ -20,9 +20,6 @@ sky = SubResource("Sky_272bh")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_272bh"]
-radius = 0.87369233
-
 [node name="main" type="Node3D" unique_id=1657856518]
 script = ExtResource("1_h2yge")
 
@@ -44,8 +41,5 @@ metadata/_edit_group_ = true
 
 [node name="plane" parent="cam" unique_id=2060580486 instance=ExtResource("2_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.9999999, 0, 0.9999999, -4.3711385e-08, 0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cam/plane" unique_id=1142281939]
-shape = SubResource("SphereShape3D_272bh")
 
 [node name="HUD" parent="." unique_id=683798721 instance=ExtResource("6_hud")]

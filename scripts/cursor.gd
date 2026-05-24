@@ -21,6 +21,7 @@ func _cursor_piece_state_valid(valid: bool):
 		mat.set_shader_parameter("edge_color", Color.GREEN if valid else Color.RED)
 		mat.set_shader_parameter("emission_strength", 2.0)
 
+var horizontal = true;
 func rotate_piece():
-	rotation_index = (rotation_index + 1) % 4
-	current_piece_visual.rotation_degrees.z = rotation_index * 90
+	horizontal = !horizontal
+	current_piece_visual.rotation_degrees.z = int(horizontal) * 90

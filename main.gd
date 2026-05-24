@@ -92,7 +92,7 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 			continue
 		
 		var dist = mouse_world.distance_to(snap["pos"])
-		if dist > 1:
+		if dist > 2:
 			continue
 		
 		var side: int = snap_data.side
@@ -109,13 +109,15 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 		 
 		if data.is_double():
 			center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 0.51)
-			rot = Vector3(0, base_rot_y+(PI/2), 0)
-			matched_half = 0 # Doesn't matter for doubles
+			rot = Vector3(base_rot_y+(PI/2), base_rot_y+(PI/2), base_rot_y+(PI/2))
+			matched_half = -1
 		else:
 			center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 1.1)
+			# Left
 			if match_v1:
 				rot = Vector3(0, base_rot_y, 0)
 				matched_half = 0
+			# Right
 			if match_v2:
 				rot = Vector3(0, base_rot_y+PI, 0)
 				matched_half = 1
@@ -132,7 +134,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_do_place_piece(data, current_snap)
 	
 	if event.is_action_pressed("rotate_piece"):
-		#cursor.rotate_piece()
+		cursor.rotate_piece()
 		pass
 	if event.is_action_pressed("next_piece"):
 		change_selection(1)
@@ -145,19 +147,21 @@ func _unhandled_input(event: InputEvent) -> void:
 # --- Placement ---
 func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	# Spawn 3D piece
-	board.place(data, snap)
+	board.place(data, snap, cursor.horizontal)
+	
 	
 	# Effects
-	_spawn_particles(snap["pos"], snap["rot"])
+	_spawn_particles(snap["pos"])
 	cameraRot.shake()
 	
 	# Update snap points BEFORE play_tile (which changes open_ends)
 	_update_snap_points(data, snap["pos"], snap["side"], snap)
 	# Update game state (Now handle board_pieces and hands in gameplay.gd)
-	Gameplay.play_tile(Gameplay.current_turn, data, snap["side"] if snap["side"] >= 0 else 0, snap["pos"], snap["rot"])
+	Gameplay.play_tile(Gameplay.current_turn, data, snap["side"] if snap["side"] > 0 else 0, snap["pos"], snap["rot"])
 	turn_changed.emit()
 
 func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, snap: Dictionary):
+	
 	# First piece: create both endpoints
 	if Gameplay.board_pieces.size() == 0:
 		left_snap = {
@@ -171,6 +175,7 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, sna
 			"normal": board.lastPlaced.getRightDir()
 		}
 		return
+	
 	var new_snap = {
 		"pos": pos, 
 		"value": data.v2 if snap.get("matched_half", 0) == 0 else data.v1,
@@ -190,8 +195,8 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, sna
 		new_snap["pos"] += board.lastPlaced.getRightDir()*step
 		right_snap = new_snap
 
-func _spawn_particles(pos: Vector3, rot: Vector3):
-	var particles = Global._create_placement_particles(pos, rot)
+func _spawn_particles(pos: Vector3):
+	var particles = Global._create_placement_particles(pos)
 	add_child(particles)
 	particles.emitting = true
 
