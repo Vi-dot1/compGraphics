@@ -8,6 +8,7 @@ extends Node3D
 
 var selected_piece_index: int = 0
 
+
 # Direct tracking of the two open ends of the chain in 3D space.
 # "pos" = the EDGE of the last piece on that side (where the next piece touches).
 # "normal" = direction pointing OUTWARD from the chain.
@@ -108,7 +109,7 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 			# Doubles are placed crosswise (90 degrees to the chain)
 			rot = Vector3(0, base_rot_y + PI/2, 0)
 			matched_half = 0 # Doesn't matter for doubles
-			var center = snap["pos"] + normal * 0.5 # Double is only 1 unit wide along chain
+			var center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 0.5) # Double is only 1 unit wide along chain
 			best = {"valid": true, "pos": center, "rot": rot, "side": side, "matched_half": matched_half, "normal": normal}
 		else:
 			if match_v1:
@@ -117,10 +118,13 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 			else:
 				rot = Vector3(0, base_rot_y + PI, 0)
 				matched_half = 1
-			var center = snap["pos"] + normal * 1.0 # Standard piece is 2 units long
+			var center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 1.0) # Standard piece is 2 units long
+			
 			best = {"valid": true, "pos": center, "rot": rot, "side": side, "matched_half": matched_half, "normal": normal}
 		
 		best_dist = dist
+	
+	print(best)
 	return best
 
 # --- Input ---
@@ -131,6 +135,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("place"):
 		if current_snap.valid and Gameplay.hands[Gameplay.current_turn].size() > 0:
 			var data = Gameplay.hands[Gameplay.current_turn][selected_piece_index]
+			
 			_do_place_piece(data, current_snap)
 	
 	if event.is_action_pressed("next_piece"):
@@ -156,27 +161,26 @@ func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	cameraRot.shake()
 	
 	# Update snap points BEFORE play_tile (which changes open_ends)
-	_update_snap_points(data, pos, rot, side, snap)
+	_update_snap_points(data, pos, side, snap)
 	
 	# Update game state (Now handle board_pieces and hands in gameplay.gd)
 	Gameplay.play_tile(Gameplay.current_turn, data, side if side >= 0 else 0, pos, rot)
 	update_cursor_piece()
 
-
-func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, side: int, snap: Dictionary):
+func __update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, side: int, snap: Dictionary):
 	var b = Basis(Quaternion.from_euler(rot))
-
+	
 	if Gameplay.board_pieces.size() == 0:
 		# First piece: create both endpoints
 		# If it's a double, endpoints are closer to center
-		var dist = 0.5 if data.is_double() else 1.0
+		var dist = 1.0
 		left_snap = {
-			"pos": pos + b * Vector3(-dist, 0, 0),
+			"pos": pos + (b * Vector3(-dist, 0, 0)),
 			"value": data.v1,
 			"normal": b * Vector3(-1, 0, 0)
 		}
 		right_snap = {
-			"pos": pos + b * Vector3(dist, 0, 0),
+			"pos": pos + (b * Vector3(dist, 0, 0)),
 			"value": data.v2,
 			"normal": b * Vector3(1, 0, 0)
 		}
@@ -184,11 +188,12 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 	
 	# Subsequent piece: update the endpoint that was connected
 	var normal: Vector3 = snap["normal"]
-	var matched_half: int = snap.get("matched_half", 0)
-	var exposed_value = data.v2 if matched_half == 0 else data.v1
+	var exposed_value = data.v2 if snap.get("matched_half", 0) == 0 else data.v1
+	
 	# If we just placed a double, the new edge is only 0.5 away from center
-	# If we placed a standard piece, the new edge is 1.0 away from center
+	# else the new edge is 1.0 away from center
 	var step = 0.5 if data.is_double() else 1.0
+	
 	var new_edge_pos = pos + normal * step
 	var new_snap = {"pos": new_edge_pos, "value": exposed_value, "normal": normal}
 	
@@ -197,12 +202,46 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, rot: Vector3, 
 	else:
 		right_snap = new_snap
 
+func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, snap: Dictionary):
+	
+	# First piece: create both endpoints
+	if Gameplay.board_pieces.size() == 0:
+		
+		left_snap = {
+			"pos": pos + board.lastPlaced.getLeftDir(),
+			"value": data.v1,
+			"normal": board.lastPlaced.getLeftDir()
+		}
+		right_snap = {
+			"pos": pos + board.lastPlaced.getRightDir(),
+			"value": data.v2,
+			"normal": board.lastPlaced.getRightDir()
+		}
+		return
+	
+	# Subsequent piece: update the endpoint that was connected
+	var normal: Vector3 = snap["normal"]
+	var exposed_value = data.v2 if snap.get("matched_half", 0) == 0 else data.v1
+	
+	var new_snap = {"pos": pos, "value": exposed_value, "normal": normal}
+	
+	# If we just placed a double, the new edge is only 0.5 away from center
+	# else the new edge is 1.0 away from center
+	var step = 0.5 if data.is_double() else 1.0
+	
+	# Left
+	if side == 0:
+		new_snap["pos"] += board.lastPlaced.getLeftDir()*step
+		left_snap = new_snap
+	# Right
+	else:
+		new_snap["pos"] += board.lastPlaced.getRightDir()*step
+		right_snap = new_snap
 
 func _spawn_particles(pos: Vector3, rot: Vector3):
 	var particles = Global._create_placement_particles(pos, rot)
 	add_child(particles)
 	particles.emitting = true
-	
 	get_tree().create_timer(2.0).timeout.connect(particles.queue_free)
 
 func change_selection(dir: int):
@@ -212,5 +251,4 @@ func change_selection(dir: int):
 	selected_piece_index = (selected_piece_index + dir) % my_hand.size()
 	if selected_piece_index < 0:
 		selected_piece_index += my_hand.size()
-	
 	update_cursor_piece()

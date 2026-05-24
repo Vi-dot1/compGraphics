@@ -6,7 +6,6 @@ class_name DominoPiece
 
 var v1: int = 0
 var v2: int = 0
-var orientation: int = 0 # 0: horizontal, 1: vertical
 
 var default_mesh_rotation:Vector3
 func _ready():
@@ -15,6 +14,14 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	look_at(Global.planet_center, Vector3(0, 1, 0))
+	set_process(false)
+
+# Return left dir in global coords
+func getLeftDir() -> Vector3:
+	return ($refLeft.global_position-global_position).normalized()
+# Return right dir in global coords
+func getRightDir() -> Vector3:
+	return ($refRight.global_position-global_position).normalized()
 
 func rotate_visual(rot:Vector3) -> void:
 	mesh_instance.rotation = default_mesh_rotation-rot

@@ -17,7 +17,7 @@ shader_parameter/val1 = 0
 shader_parameter/val2 = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape_1"]
-size = Vector3(2, 0.2, 1)
+size = Vector3(2, 1, 0.19384766)
 
 [node name="DominoPiece" type="StaticBody3D" unique_id=731853058]
 script = ExtResource("1_script")
@@ -32,3 +32,9 @@ shape = SubResource("BoxShape_1")
 
 [node name="ref" type="Node3D" parent="." unique_id=1097262820]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="refLeft" type="Node3D" parent="." unique_id=468970936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="refRight" type="Node3D" parent="." unique_id=1415815059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
