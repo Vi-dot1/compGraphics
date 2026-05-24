@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dvdtw3gaj5sch" path="res://scripts/hud.gd" id="1_script"]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=763324755]
 script = ExtResource("1_script")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=48678976]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1913698210]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -28,12 +28,12 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer" unique_id=1755787943]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="StatusLabel" type="Label" parent="Control"]
+[node name="StatusLabel" type="Label" parent="Control" unique_id=1625984575]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -47,7 +47,7 @@ theme_override_font_sizes/font_size = 24
 text = "YOUR TURN"
 horizontal_alignment = 1
 
-[node name="BoneyardLabel" type="Label" parent="Control"]
+[node name="BoneyardLabel" type="Label" parent="Control" unique_id=1939426149]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

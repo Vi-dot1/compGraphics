@@ -4,6 +4,8 @@ class_name Board
 
 var lastPlaced:DominoPiece = null
 
+var closeness_to_center:float = 1.1
+
 func fix_piece_distance_to_radius(pos:Vector3) -> Vector3:
 	# Ya me canse de las piezas saliendose, se supone que ttecleo, no que hao algebra aaaa
 	# asi que descubri que como a fin de cuentas la pieza es recta se va acumulando un angulo que
@@ -11,15 +13,17 @@ func fix_piece_distance_to_radius(pos:Vector3) -> Vector3:
 	# de la pieza
 	#
 	# Si medio saben vectores, deberian enteneder esto, si no, la explicacion cuesta un juguito
-	return to_global(to_local(pos).normalized()*Global.planet_radius*1.1)
+	return to_global(to_local(pos).normalized()*Global.planet_radius*closeness_to_center)
 
 func get_position_on_radius(pos:Vector2):
 	var dir = (get_viewport().get_camera_3d().global_position-global_position).normalized()
+	
 	# X
 	dir = dir.rotated(Vector3.UP, -pos.x/Global.planet_radius)
 	# Y
 	dir = dir.rotated(Vector3.RIGHT, pos.y/Global.planet_radius)
-	return dir*Global.planet_radius*1.1
+	
+	return dir*Global.planet_radius*closeness_to_center
 
 var can_place = true
 func place(data: Gameplay.DominoData, snap: Dictionary):
@@ -30,6 +34,8 @@ func place(data: Gameplay.DominoData, snap: Dictionary):
 	
 	piece.global_position = snap["pos"]
 	piece.top_level = true
+	
+	piece.look_at(self.global_position)
 	piece.rotate_visual(snap["rot"])
 	
 	# Get piece ref

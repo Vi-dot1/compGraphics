@@ -1,8 +1,6 @@
-extends StaticBody3D
+extends Node3D
 class_name DominoPiece
-
 @onready var mesh_instance = $MeshInstance3D
-@onready var ref:Node3D = $ref
 
 var v1: int = 0
 var v2: int = 0
@@ -12,22 +10,20 @@ func _ready():
 	update_visuals()
 	default_mesh_rotation = mesh_instance.rotation
 
-func _process(_delta: float) -> void:
-	look_at(Global.planet_center, Vector3(0, 1, 0))
-	set_process(false)
-
-# Return left dir in global coords
 func getLeftDir() -> Vector3:
 	return ($refLeft.global_position-global_position).normalized()
-# Return right dir in global coords
 func getRightDir() -> Vector3:
 	return ($refRight.global_position-global_position).normalized()
+func getNorthDir() -> Vector3:
+	return ($refNorth.global_position-global_position).normalized()
+func getSouthDir() -> Vector3:
+	return ($refSouth.global_position-global_position).normalized()
+
 
 func rotate_visual(rot:Vector3) -> void:
 	mesh_instance.rotation = default_mesh_rotation-rot
 func reset_rotation() -> void:
 	mesh_instance.rotation = default_mesh_rotation
-
 func setup(data: Gameplay.DominoData):
 	v1 = data.v1
 	v2 = data.v2

@@ -16,10 +16,7 @@ shader_parameter/emission_strength = 2.0
 shader_parameter/val1 = 0
 shader_parameter/val2 = 0
 
-[sub_resource type="BoxShape3D" id="BoxShape_1"]
-size = Vector3(2, 1, 0.19384766)
-
-[node name="DominoPiece" type="StaticBody3D" unique_id=731853058]
+[node name="DominoPiece" type="Node3D" unique_id=111497804]
 script = ExtResource("1_script")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=539018278]
@@ -27,14 +24,17 @@ transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, 
 mesh = SubResource("BoxMesh_1")
 surface_material_override/0 = SubResource("ShaderMaterial_1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=823011862]
-shape = SubResource("BoxShape_1")
-
-[node name="ref" type="Node3D" parent="." unique_id=1097262820]
+[node name="refCenter" type="Node3D" parent="." unique_id=1097262820]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="refLeft" type="Node3D" parent="." unique_id=468970936]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="refNorth" type="Node3D" parent="." unique_id=1913488942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="refSouth" type="Node3D" parent="." unique_id=1595981811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="refRight" type="Node3D" parent="." unique_id=1415815059]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)

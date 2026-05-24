@@ -102,10 +102,10 @@ func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vecto
 		piece_played = true
 	
 	if tile.v1 == open_ends[side]:
-		open_ends[0] = tile.v2
+		open_ends[side] = tile.v2
 		piece_played = true
-	elif tile.v2 == open_ends[side]: 
-		open_ends[0] = tile.v1
+	if tile.v2 == open_ends[side]: 
+		open_ends[side] = tile.v1
 		piece_played = true
 	
 	if piece_played:

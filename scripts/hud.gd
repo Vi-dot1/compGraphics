@@ -39,7 +39,7 @@ func create_domino_ui(data: Gameplay.DominoData, selected: bool) -> Control:
 	panel.custom_minimum_size = Vector2(80, 40)
 	
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.1, 0.2, 0.8)
+	style.bg_color = Global.piece_color
 	style.corner_radius_top_left = 4
 	style.corner_radius_top_right = 4
 	style.corner_radius_bottom_left = 4
