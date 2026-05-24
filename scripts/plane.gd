@@ -20,8 +20,7 @@ func place(data: Gameplay.DominoData, snap: Dictionary):
 	
 	piece.global_position = snap["pos"]
 	piece.top_level = true
-	
-	piece.mesh_instance.rotation -= snap["rot"]
+	piece.rotate_visual(snap["rot"])
 
 
 func _on_mouse_entered() -> void:

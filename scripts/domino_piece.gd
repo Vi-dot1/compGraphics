@@ -8,11 +8,18 @@ var v1: int = 0
 var v2: int = 0
 var orientation: int = 0 # 0: horizontal, 1: vertical
 
+var default_mesh_rotation:Vector3
 func _ready():
 	update_visuals()
+	default_mesh_rotation = mesh_instance.rotation
 
 func _process(_delta: float) -> void:
 	look_at(Global.planet_center, Vector3(0, 1, 0))
+
+func rotate_visual(rot:Vector3) -> void:
+	mesh_instance.rotation = default_mesh_rotation-rot
+func reset_rotation() -> void:
+	mesh_instance.rotation = default_mesh_rotation
 
 func setup(data: Gameplay.DominoData):
 	v1 = data.v1

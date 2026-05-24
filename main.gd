@@ -56,7 +56,6 @@ func _physics_process(_delta: float) -> void:
 		return
 	
 	var data = my_hand[selected_piece_index]
-	var sv = 1
 	
 	# --- First piece: free placement ---
 	if Gameplay.board_pieces.size() == 0:
@@ -76,9 +75,9 @@ func _physics_process(_delta: float) -> void:
 	
 	if current_snap.valid:
 		cursor.position = current_snap.pos
-		cursor.visual_root.rotation = current_snap.rot
+		cursor.current_piece_visual.rotate_visual(current_snap.rot)
 	else:
-		# round(hit/sv)
+		cursor.current_piece_visual.reset_rotation()
 		cursor.position = round(hit)
 
 func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Dictionary:
