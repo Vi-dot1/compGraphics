@@ -10,15 +10,14 @@ func _ready():
 	update_visuals()
 	default_mesh_rotation = mesh_instance.rotation
 
-func getLeftDir() -> Vector3:
-	return ($refLeft.global_position-global_position).normalized()
-func getRightDir() -> Vector3:
-	return ($refRight.global_position-global_position).normalized()
-func getNorthDir() -> Vector3:
-	return ($refNorth.global_position-global_position).normalized()
-func getSouthDir() -> Vector3:
-	return ($refSouth.global_position-global_position).normalized()
-
+func getLeftSnapPoint(is_double:bool = false) -> Vector3:
+	if is_double:
+		return $refLeftDouble.global_position
+	return $refLeft.global_position
+func getRightSnapPoint(is_double:bool = false) -> Vector3:
+	if is_double:
+		return $refRightDouble.global_position
+	return $refRight.global_position
 
 func rotate_visual(rot:Vector3) -> void:
 	mesh_instance.rotation = default_mesh_rotation-rot

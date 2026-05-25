@@ -97,32 +97,30 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 			continue
 		
 		var side: int = snap_data.side
-		var normal: Vector3 = snap["normal"]
 		var match_v1:bool = (data.v1 == snap["value"])
 		var match_v2:bool = (data.v2 == snap["value"])
 		if not match_v1 and not match_v2:
 			continue
 		
-		var base_rot_y:float = atan2(-normal.z, normal.x)
 		var rot:Vector3
 		var matched_half: int
 		var center:Vector3
 		 
 		if data.is_double():
-			center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 0.51)
-			rot = Vector3(base_rot_y+(PI/2), base_rot_y+(PI/2), base_rot_y+(PI/2))
+			center = board.fix_piece_distance_to_radius(snap["doublePos"])
+			rot = Vector3((PI/2), (PI/2), (PI/2))
 			matched_half = -1
 		else:
-			center = board.fix_piece_distance_to_radius(snap["pos"] + normal * 1.1)
+			center = board.fix_piece_distance_to_radius(snap["pos"] if not snap["is_double"] else snap["doublePos"])
 			# Left
 			if match_v1:
-				rot = Vector3(0, base_rot_y, 0)
+				if side == 0: rot = Vector3(0, PI, 0)
 				matched_half = 0
 			# Right
 			if match_v2:
-				rot = Vector3(0, base_rot_y+PI, 0)
+				if side == 1: rot = Vector3(0, PI, 0)
 				matched_half = 1
-		best = {"valid": true, "pos": center, "rot": rot, "side": side, "matched_half": matched_half, "normal": normal}
+		best = {"valid": true, "pos": center, "rot": rot, "side": side, "matched_half": matched_half}
 	return best
 
 # --- Input ---
@@ -166,35 +164,36 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, sna
 	# First piece: create both endpoints
 	if Gameplay.board_pieces.size() == 0:
 		left_snap = {
-			"pos": pos + board.lastPlaced.getLeftDir(),
+			"pos": board.lastPlaced.getLeftSnapPoint(),
+			"doublePos": board.lastPlaced.getLeftSnapPoint(true),
 			"value": data.v1,
-			"normal": board.lastPlaced.getLeftDir()
+			"is_double": false
 		}
 		right_snap = {
-			"pos": pos + board.lastPlaced.getRightDir(),
+			"pos": board.lastPlaced.getRightSnapPoint(),
+			"doublePos": board.lastPlaced.getRightSnapPoint(true),
 			"value": data.v2,
-			"normal": board.lastPlaced.getRightDir()
+			"is_double": false
 		}
 		return
 	
 	var new_snap = {
 		"pos": pos, 
 		"value": data.v2 if snap.get("matched_half", 0) == 0 else data.v1,
-		"normal": snap["normal"]
+		"is_double": data.is_double()
 	}
 	
 	# If we just placed a double, the new edge is only 0.5 away from center
 	# else the new edge is 1.0 away from center
-	var step = 0.5 if data.is_double() else 1.0
-	
 	# Left
 	if side == 0:
-		new_snap["pos"] += board.lastPlaced.getLeftDir()*step
+		new_snap["pos"] = board.lastPlaced.getLeftSnapPoint()
+		new_snap["doublePos"] = board.lastPlaced.getLeftSnapPoint(true)
 		left_snap = new_snap
-		
 	# Right
 	else:
-		new_snap["pos"] += board.lastPlaced.getRightDir()*step
+		new_snap["pos"] = board.lastPlaced.getRightSnapPoint()
+		new_snap["doublePos"] = board.lastPlaced.getRightSnapPoint(true)
 		right_snap = new_snap
 
 func _spawn_particles(pos: Vector3):
