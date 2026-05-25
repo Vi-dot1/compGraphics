@@ -34,15 +34,8 @@ func place(data: Gameplay.DominoData, snap: Dictionary, horizontal:bool = true):
 	
 	piece.global_position = snap["pos"]
 	piece.top_level = true
+	
 	piece.look_at(self.global_position)
-	
-	if not horizontal:
-		piece.rotation_degrees.z += 90
-		if snap["side"]:
-			pass
-		else:
-			pass
-	
 	piece.rotate_visual(snap["rot"])
 	
 	# Get piece ref

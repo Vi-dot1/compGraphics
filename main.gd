@@ -9,6 +9,7 @@ signal turn_changed
 @onready var planet = $Planet
 
 var selected_piece_index: int = 0
+var last_side_placed = -1
 
 # Direct tracking of the two open ends of the chain in 3D space.
 # "pos" = the EDGE of the last piece on that side (where the next piece touches).
@@ -134,7 +135,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_do_place_piece(data, current_snap)
 	
 	if event.is_action_pressed("rotate_piece"):
-		cursor.rotate_piece()
+		#cursor.rotate_piece()
 		pass
 	if event.is_action_pressed("next_piece"):
 		change_selection(1)
@@ -148,7 +149,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	# Spawn 3D piece
 	board.place(data, snap, cursor.horizontal)
-	
+	last_side_placed = snap["side"]
 	
 	# Effects
 	_spawn_particles(snap["pos"])
@@ -190,6 +191,7 @@ func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, sna
 	if side == 0:
 		new_snap["pos"] += board.lastPlaced.getLeftDir()*step
 		left_snap = new_snap
+		
 	# Right
 	else:
 		new_snap["pos"] += board.lastPlaced.getRightDir()*step
