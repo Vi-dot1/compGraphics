@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c2pf8bhxlqp1m"]
 
 [ext_resource type="Script" uid="uid://44d1e7eaxd3j" path="res://scripts/Menu Principal.gd" id="1_go50j"]
-[ext_resource type="Texture2D" uid="uid://bvoq1x8knyp3w" path="res://Fondos De Pantalla Chidoss.jpg" id="2_2cn2y"]
+[ext_resource type="Texture2D" uid="uid://bvoq1x8knyp3w" path="res://assets/textures/Fondos De Pantalla Chidoss.jpg" id="2_2cn2y"]
 [ext_resource type="AudioStream" uid="uid://d0xrppvekv5xt" path="res://assets/The_Great_Stellar_Tide.mp3" id="3_fug71"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3f5tm"]
