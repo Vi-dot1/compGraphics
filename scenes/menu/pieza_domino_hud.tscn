@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://bkulr11a35dx"]
+
+[ext_resource type="Script" uid="uid://cgrafed1rwe2h" path="res://scenes/menu/pieza_domino_hud.gd" id="1_0h61j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_var5c"]
+bg_color = Color(0.86180425, 0.86180425, 0.861804, 1)
+
+[sub_resource type="Shader" id="Shader_var5c"]
+code = "shader_type canvas_item;
+
+uniform vec4 dot_color : source_color = vec4(0.0,0.0,0.0,1.0);
+uniform float dot_size = 0.12;
+uniform int val1 = 0;
+uniform int val2 = 0;
+
+float hash(vec2 p) {
+	return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123);
+}
+float noise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	vec2 u = f * f * (3.0 - 2.0 * f);
+	return mix(
+		mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+		mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x),
+		u.y
+	);
+}
+
+float draw_dot(vec2 uv, vec2 pos, float size) {
+	float d = length(uv - pos);
+	// smooth circle: 0..1 where 1 is center
+	return smoothstep(size, size * 0.6, d);
+}
+
+float draw_pips(vec2 uv, int val, float size) {
+	float res = 0.0;
+	if (val == 0) return 0.0;
+
+	if (val % 2 == 1) res += draw_dot(uv, vec2(0.5, 0.5), size);
+	if (val >= 2) {
+		res += draw_dot(uv, vec2(0.25, 0.25), size);
+		res += draw_dot(uv, vec2(0.75, 0.75), size);
+	}
+	if (val >= 4) {
+		res += draw_dot(uv, vec2(0.25, 0.75), size);
+		res += draw_dot(uv, vec2(0.75, 0.25), size);
+	}
+	if (val == 6) {
+		res += draw_dot(uv, vec2(0.25, 0.5), size);
+		res += draw_dot(uv, vec2(0.75, 0.5), size);
+	}
+	return clamp(res, 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 uv = UV; // 0..1
+	float half = 0.5;
+	float mask = 0.0;
+	if (uv.x < half) {
+		vec2 local_uv = vec2(uv.x / half, uv.y);
+		mask = draw_pips(local_uv, val1, dot_size);
+	} else {
+		vec2 local_uv = vec2((uv.x - half) / half, uv.y);
+		mask = draw_pips(local_uv, val2, dot_size);
+	}
+
+	// Only render the dots; background transparent
+	vec3 col = dot_color.rgb;
+	float a = dot_color.a * mask;
+
+	COLOR = vec4(col, a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d70wo"]
+shader = SubResource("Shader_var5c")
+shader_parameter/dot_color = Color(0.98969287, 0.98969287, 0.98969287, 1)
+shader_parameter/dot_size = 0.12
+shader_parameter/val1 = 0
+shader_parameter/val2 = 0
+
+[node name="PiezaDomino" type="Control" unique_id=991622088]
+custom_minimum_size = Vector2(24, 16)
+layout_mode = 3
+anchor_right = 0.021000002
+anchor_bottom = 0.025
+offset_right = -0.19200134
+offset_bottom = -0.20000076
+size_flags_vertical = 4
+script = ExtResource("1_0h61j")
+
+[node name="border" type="Panel" parent="." unique_id=790445141]
+custom_minimum_size = Vector2(24, 16)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_var5c")
+
+[node name="piece" type="ColorRect" parent="." unique_id=1259976884]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="dots" type="Panel" parent="." unique_id=942547843]
+material = SubResource("ShaderMaterial_d70wo")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0

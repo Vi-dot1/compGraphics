@@ -31,11 +31,6 @@ environment = SubResource("Environment_5vw27")
 
 [node name="cursor" parent="." unique_id=1414730053 instance=ExtResource("3_h2yge")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1242878367]
-transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 5, 0)
-light_energy = 0.5
-shadow_enabled = true
-
 [node name="Planet" parent="." unique_id=1606943498 instance=ExtResource("5_7mycd")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 metadata/_edit_group_ = true

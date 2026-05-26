@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bv8v7u8v7u8v"]
 
 [ext_resource type="Script" uid="uid://dvdtw3gaj5sch" path="res://scripts/hud.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bkulr11a35dx" path="res://scenes/menu/pieza_domino_hud.tscn" id="2_b0i4a"]
 
 [node name="HUD" type="CanvasLayer" unique_id=763324755]
 script = ExtResource("1_script")
@@ -16,12 +17,11 @@ mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1913698210]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -100.0
-grow_horizontal = 2
+offset_right = 448.0
 grow_vertical = 0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
@@ -30,8 +30,12 @@ theme_override_constants/margin_bottom = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer" unique_id=1755787943]
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
+
+[node name="PiezaDomino" parent="Control/MarginContainer/HBoxContainer" unique_id=991622088 instance=ExtResource("2_b0i4a")]
+layout_mode = 2
+
+[node name="PiezaDomino2" parent="Control/MarginContainer/HBoxContainer" unique_id=385072381 instance=ExtResource("2_b0i4a")]
+layout_mode = 2
 
 [node name="StatusLabel" type="Label" parent="Control" unique_id=1625984575]
 layout_mode = 1

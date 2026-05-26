@@ -142,8 +142,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_uj5gr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_x1u13")
 text = "Reglas"
 
-[node name="CuadroReglas" type="Panel" parent="BtnReglas" unique_id=1285181917]
-visible = false
+[node name="CuadroReglas" type="FoldableContainer" parent="BtnReglas" unique_id=1783784048]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 1
 anchors_preset = -1
@@ -151,42 +150,23 @@ anchor_left = -2.4020002
 anchor_top = -8.216001
 anchor_right = -0.35900003
 anchor_bottom = -3.2400002
-offset_left = -45.40396
-offset_top = -30.607971
-offset_right = 27.082008
-offset_bottom = 19.88002
+offset_left = -8.403961
+offset_top = -23.607971
+offset_right = 64.08201
+offset_bottom = 26.88002
 grow_horizontal = 2
 grow_vertical = 2
+title = "Reglas del Juego"
 
 [node name="Label" type="Label" parent="BtnReglas/CuadroReglas" unique_id=20958031]
-layout_mode = 0
-offset_left = -1.0
-offset_right = 449.0
-offset_bottom = 300.0
-text = "                                       Reglas del Juego
-
-         El Juego solo se  puede jugar de 2 a 4 personas
+layout_mode = 2
+size_flags_vertical = 1
+text = "El Juego solo se  puede jugar de 2 a 4 personas
 
 
 
 
 "
-autowrap_mode = 2
-
-[node name="BtnCerrarReglas" type="Button" parent="BtnReglas/CuadroReglas" unique_id=1542188806]
-custom_minimum_size = Vector2(120, 50)
-layout_mode = 0
-offset_left = 5.0
-offset_top = -1.0
-offset_right = 125.0
-offset_bottom = 49.0
-theme_override_font_sizes/font_size = 21
-text = "X"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="BtnReglas/CuadroReglas" unique_id=439648340]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="BtnSalir" type="Button" parent="." unique_id=1084380647]
 custom_minimum_size = Vector2(200, 60)
@@ -203,5 +183,4 @@ metadata/_edit_group_ = true
 
 [connection signal="pressed" from="BtnJugar" to="." method="_on_btn_jugar_pressed"]
 [connection signal="pressed" from="BtnReglas" to="." method="_on_btn_reglas_pressed"]
-[connection signal="pressed" from="BtnReglas/CuadroReglas/BtnCerrarReglas" to="." method="_on_btn_cerrar_reglas_pressed"]
 [connection signal="pressed" from="BtnSalir" to="." method="_on_btn_salir_pressed"]

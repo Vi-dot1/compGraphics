@@ -39,10 +39,6 @@ script = ExtResource("1_mtr83")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2046229582]
 mesh = SubResource("SphereMesh_jcv8b")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MeshInstance3D" unique_id=1849524493]
-transform = Transform3D(0.019831758, 0, 0.00258872, 0, 0.02, 0, -0.00258872, 0, 0.019831758, -0.6460179, 0.40268034, 2.0421717)
-sky_mode = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1733904537]
 libraries/ = SubResource("AnimationLibrary_1odxm")
 autoplay = &"orbibing"

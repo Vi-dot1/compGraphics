@@ -9,7 +9,7 @@ script = ExtResource("1_o413r")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008376807, 1.997585)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera3D" unique_id=1473907817]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018167496, 0.15968943)
-light_energy = 1.5
-spot_range = 4.0
-spot_angle = 41.336697
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018167496, -0.07611966)
+spot_range = 100.0
+spot_attenuation = 1.5
+spot_angle = 20.0

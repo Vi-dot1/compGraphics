@@ -37,6 +37,7 @@ func _ready() -> void:
 func _on_turn_changed() -> void:
 	selected_piece_index = 0
 	update_cursor_piece()
+	hud.update_hand()
 func _on_game_end() -> void:
 	$backgroundMusic.stop()
 	$sfx2.play()
@@ -46,7 +47,6 @@ func update_cursor_piece():
 	if my_hand.size():
 		selected_piece_index = clampi(selected_piece_index, 0, my_hand.size() - 1)
 		cursor.set_piece(my_hand[selected_piece_index])
-	hud.update_hand()
 
 # --- Physics / Cursor Movement ---
 func _process(_delta: float) -> void:
@@ -139,6 +139,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("rotate_piece"):
 		#cursor.rotate_piece()
 		pass
+	
 	if event.is_action_pressed("next_piece"):
 		change_selection(1)
 	if event.is_action_pressed("prev_piece"):
@@ -207,5 +208,10 @@ func change_selection(dir: int):
 	var my_hand = Gameplay.hands[Gameplay.current_turn]
 	if my_hand.size() == 0:
 		return
+	hud.update_selected(selected_piece_index, false)
 	selected_piece_index = (selected_piece_index+dir) % my_hand.size()
+	if selected_piece_index < 0:
+		selected_piece_index += my_hand.size()
+	
+	hud.update_selected(selected_piece_index, true)
 	update_cursor_piece()
