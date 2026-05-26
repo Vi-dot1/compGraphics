@@ -1,5 +1,8 @@
 extends Node
 
+signal turn_changed
+signal game_end
+
 class DominoData:
 	var v1: int
 	var v2: int
@@ -93,31 +96,15 @@ func get_valid_moves(player_id: int) -> Array:
 	
 	return valid
 
-
-func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> bool:
-	var piece_played:bool = false
-	
-	if board_pieces.size() == 0:
-		open_ends = [tile.v1, tile.v2]
-		piece_played = true
-	
-	if tile.v1 == open_ends[side]:
-		open_ends[side] = tile.v2
-		piece_played = true
-	if tile.v2 == open_ends[side]: 
-		open_ends[side] = tile.v1
-		piece_played = true
-	
-	if piece_played:
-		board_pieces.append({"data": tile, "pos": pos, "rot": rot})
-		hands[player_id].erase(tile)
-		consecutive_passes = 0
+func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> void:
+	board_pieces.append({"data": tile, "pos": pos, "rot": rot})
+	hands[player_id].erase(tile)
+	consecutive_passes = 0
 	
 	if hands[player_id].size() == 0:
 		end_game(player_id, "Domino!")
 	else:
 		advance_turn()
-	return piece_played
 
 func draw_piece() -> DominoData:
 	if boneyard.size() > 0:
@@ -129,6 +116,7 @@ func draw_piece() -> DominoData:
 func advance_turn():
 	current_turn += 1
 	current_turn %= hands.size()
+	turn_changed.emit()
 
 func player_pass():
 	consecutive_passes += 1
@@ -147,6 +135,7 @@ func end_game(winner: int, _reason: String):
 		if p0 < p1: winner_id = 0
 		elif p1 < p0: winner_id = 1
 		else: winner_id = -1
+	game_end.emit()
 
 func get_hand_sum(player_id: int) -> int:
 	var s = 0

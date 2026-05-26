@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var cam_speed:float = 2.2
+@export var cam_speed:float = 4.5
 @onready var cam = $Camera3D
 
 var cam_distance:float = 20 :
@@ -41,4 +41,4 @@ func focus_on(center: Vector3, max_dim: float):
 		target_height = required_height
 
 func _unhandled_input(_event: InputEvent) -> void:
-	dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	dir = Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")

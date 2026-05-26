@@ -1,0 +1,207 @@
+[gd_scene format=3 uid="uid://c2pf8bhxlqp1m"]
+
+[ext_resource type="Script" uid="uid://44d1e7eaxd3j" path="res://scripts/Menu Principal.gd" id="1_go50j"]
+[ext_resource type="Texture2D" uid="uid://bvoq1x8knyp3w" path="res://Fondos De Pantalla Chidoss.jpg" id="2_2cn2y"]
+[ext_resource type="AudioStream" uid="uid://d0xrppvekv5xt" path="res://assets/The_Great_Stellar_Tide.mp3" id="3_fug71"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3f5tm"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1280, 720, 1)
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m48y6"]
+bg_color = Color(0, 1, 0.470588, 0.501961)
+border_width_left = 9
+border_width_top = 9
+border_width_right = 9
+border_width_bottom = 9
+border_color = Color(0.25098, 0.92549, 0.717647, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0, 0.32549, 0, 0.6)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27xr5"]
+bg_color = Color(0, 1, 0.470588, 0.501961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.25098, 0.92549, 0.717647, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uj5gr"]
+bg_color = Color(0, 0.8, 1, 0.501961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0.529412, 1, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1u13"]
+bg_color = Color(0, 0.8, 1, 0.501961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.4, 0.952941, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0, 0, 0.431373, 0.6)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnttd"]
+bg_color = Color(1, 0.101961, 0.101961, 0.501961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.756863, 0.101961, 0.101961, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 18
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tylt"]
+bg_color = Color(0.666667, 0.0470588, 0.0666667, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0.552941, 0, 0, 0.6)
+shadow_size = 12
+
+[node name="Menu Principal" type="Control" unique_id=856757596]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+script = ExtResource("1_go50j")
+
+[node name="Fondo Nebulosa" type="TextureRect" parent="." unique_id=707904329]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_right = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2cn2y")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=104151875]
+amount = 150
+process_material = SubResource("ParticleProcessMaterial_3f5tm")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=930180722]
+stream = ExtResource("3_fug71")
+autoplay = true
+
+[node name="BtnJugar" type="Button" parent="." unique_id=248434798]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 0
+offset_left = 141.0
+offset_top = 491.0
+offset_right = 439.0
+offset_bottom = 635.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_m48y6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_27xr5")
+text = "Jugar"
+
+[node name="BtnReglas" type="Button" parent="." unique_id=1965168912]
+layout_mode = 0
+offset_left = 524.0
+offset_top = 541.0
+offset_right = 722.0
+offset_bottom = 603.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_uj5gr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x1u13")
+text = "Reglas"
+
+[node name="CuadroReglas" type="Panel" parent="BtnReglas" unique_id=1285181917]
+visible = false
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.4020002
+anchor_top = -8.216001
+anchor_right = -0.35900003
+anchor_bottom = -3.2400002
+offset_left = -45.40396
+offset_top = -30.607971
+offset_right = 27.082008
+offset_bottom = 19.88002
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="BtnReglas/CuadroReglas" unique_id=20958031]
+layout_mode = 0
+offset_left = -1.0
+offset_right = 449.0
+offset_bottom = 300.0
+text = "                                       Reglas del Juego
+
+         El Juego solo se  puede jugar de 2 a 4 personas
+
+
+
+
+"
+autowrap_mode = 2
+
+[node name="BtnCerrarReglas" type="Button" parent="BtnReglas/CuadroReglas" unique_id=1542188806]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 0
+offset_left = 5.0
+offset_top = -1.0
+offset_right = 125.0
+offset_bottom = 49.0
+theme_override_font_sizes/font_size = 21
+text = "X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BtnReglas/CuadroReglas" unique_id=439648340]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BtnSalir" type="Button" parent="." unique_id=1084380647]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 0
+offset_left = 828.0
+offset_top = 489.0
+offset_right = 1126.0
+offset_bottom = 633.0
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rnttd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7tylt")
+text = "Salir"
+metadata/_edit_group_ = true
+
+[connection signal="pressed" from="BtnJugar" to="." method="_on_btn_jugar_pressed"]
+[connection signal="pressed" from="BtnReglas" to="." method="_on_btn_reglas_pressed"]
+[connection signal="pressed" from="BtnReglas/CuadroReglas/BtnCerrarReglas" to="." method="_on_btn_cerrar_reglas_pressed"]
+[connection signal="pressed" from="BtnSalir" to="." method="_on_btn_salir_pressed"]
