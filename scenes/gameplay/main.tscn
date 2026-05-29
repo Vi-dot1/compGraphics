@@ -55,3 +55,6 @@ volume_db = 0.2
 [node name="sfx2" type="AudioStreamPlayer" parent="." unique_id=1112022355]
 stream = ExtResource("10_4c57u")
 volume_db = 0.2
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=6558109]
+transform = Transform3D(0.9331858, 0, 0.35939428, 0, 1, 0, -0.35939428, 0, 0.9331858, 5, 0, 0.7701255)

@@ -38,14 +38,14 @@ func _on_turn_changed() -> void:
 	selected_piece_index = 0
 	update_cursor_piece()
 	hud.update_hand()
+	
 func _on_game_end() -> void:
 	$backgroundMusic.stop()
 	$sfx2.play()
 
 func update_cursor_piece():
-	var my_hand = Gameplay.hands[Gameplay.current_turn]
-	if my_hand.size():
-		selected_piece_index = clampi(selected_piece_index, 0, my_hand.size() - 1)
+	var my_hand = Gameplay.current_player["pieces"]
+	if my_hand.size() > 0:
 		cursor.set_piece(my_hand[selected_piece_index])
 
 # --- Physics / Cursor Movement ---
@@ -60,14 +60,14 @@ func _process(_delta: float) -> void:
 	if hit == null:
 		return
 	
-	var my_hand = Gameplay.hands[Gameplay.current_turn]
+	var my_hand = Gameplay.current_player["pieces"]
 	if my_hand.size() == 0:
 		return
 	
 	var data = my_hand[selected_piece_index]
 	
 	# --- First piece: free placement ---
-	if Gameplay.board_pieces.size() == 0:
+	if Gameplay.open_ends[0] == -1:
 		cursor.position = round(hit)
 		
 		current_snap = {"valid": true, "side": -1, "pos": cursor.position, "rot": cursor.current_piece_visual.rotation}
@@ -131,9 +131,10 @@ func _find_best_snap(mouse_world: Vector3, data: Gameplay.DominoData) -> Diction
 func _unhandled_input(event: InputEvent) -> void:
 	if Gameplay.game_over:
 		return
+	
 	if event.is_action_pressed("place"):
-		if current_snap.valid and Gameplay.hands[Gameplay.current_turn].size() > 0:
-			var data = Gameplay.hands[Gameplay.current_turn][selected_piece_index]
+		if current_snap.valid and Gameplay.current_player["pieces"].size() > 0:
+			var data = Gameplay.current_player["pieces"][selected_piece_index]
 			_do_place_piece(data, current_snap)
 	
 	if event.is_action_pressed("rotate_piece"):
@@ -164,11 +165,11 @@ func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
 	# Update snap points BEFORE play_tile (which changes open_ends)
 	_update_snap_points(data, snap["pos"], snap["side"], snap)
 	# Update game state (Now handle board_pieces and hands in gameplay.gd)
-	Gameplay.play_tile(Gameplay.current_turn, data, snap["side"] if snap["side"] > 0 else 0, snap["pos"], snap["rot"])
+	Gameplay.play_tile(data, snap["side"] if snap["side"] > 0 else 0)
 
 func _update_snap_points(data: Gameplay.DominoData, pos: Vector3, side: int, snap: Dictionary):
 	# First piece: create both endpoints
-	if Gameplay.board_pieces.size() == 0:
+	if Gameplay.open_ends[0] == -1:
 		left_snap = {
 			"pos": board.lastPlaced.getLeftSnapPoint(),
 			"doublePos": board.lastPlaced.getLeftSnapPoint(true),
@@ -205,7 +206,7 @@ func _spawn_particles(pos: Vector3):
 	particles.emitting = true
 
 func change_selection(dir: int):
-	var my_hand = Gameplay.hands[Gameplay.current_turn]
+	var my_hand = Gameplay.current_player["pieces"]
 	if my_hand.size() == 0:
 		return
 	hud.update_selected(selected_piece_index, false)

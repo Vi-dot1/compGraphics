@@ -41,6 +41,6 @@ func focus_on(center: Vector3, max_dim: float):
 		target_height = required_height
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Gameplay.board_pieces.size() == 0: 
+	if Gameplay.open_ends[0] == -1: 
 		return
 	dir = Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")

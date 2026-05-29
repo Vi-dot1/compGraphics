@@ -1,9 +1,7 @@
 extends Control
 
 func _on_btn_reglas_pressed():
-	$BtnReglas/CuadroReglas.show()
-func _on_btn_cerrar_reglas_pressed():
-	$BtnReglas/CuadroReglas.hide()
+	$CuadroReglas.visible = !$CuadroReglas.visible
 
 func _on_btn_salir_pressed():
 	get_tree().quit()

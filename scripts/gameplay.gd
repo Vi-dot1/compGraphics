@@ -18,129 +18,131 @@ class DominoData:
 
 # --- State Variables ---
 var boneyard: Array[DominoData] = []
-var hands: Dictionary = {0: [], 1: []}
+var players: Array[Dictionary]
+var current_player: Dictionary
 
-var board_pieces: Array = []
-var open_ends: Array[int] = [-1, -1]
 var current_turn: int = 0
 var consecutive_passes: int = 0
+var open_ends:Array[int] = [-1, -1]
+
+var can_draw: bool = true
 var game_over: bool = false
 var winner_id: int = -1
 
-func _ready():
-	pass
+func set_current_player_val() -> void:
+	current_player = players[current_turn]
 
-func init_game():
+func init_game(player_amnt:int = 2):
 	boneyard.clear()
-	board_pieces.clear()
-	hands = {0: [], 1: []}
-	open_ends = [-1, -1]
+	
+	# Para evitar que un chistoso meta -2 jugadores
+	if player_amnt < 2:
+		player_amnt = 2
+	
+	for i in range(player_amnt):
+		var player_data:Dictionary = {"pieces":[], "points":0}
+		players.append(player_data)
+	
 	game_over = false
 	winner_id = -1
-	consecutive_passes = 0
 	
-	# Generate 28 tiles
+	boneyard.clear()
 	for i in range(7):
 		for j in range(i, 7):
 			boneyard.append(DominoData.new(i, j))
 	boneyard.shuffle()
 	
-	# Deal 7 each
-	for i in range(7):
-		hands[0].append(boneyard.pop_back())
-		hands[1].append(boneyard.pop_back())
-	
+	# A cada jugador
+	for player in players:
+		# Dale 7 Piezas
+		for j in range(2):
+			player["pieces"].append(boneyard.pop_back())
+	# Determina el inicial
 	determine_starter()
-
-func _determine_starter():
-	return -1
+	set_current_player_val()
 
 # Determina jugada inicial
 func determine_starter():
 	var best_double = -1
-	var starter = 0
-	
+	var starter = -1
 	# Determina que jugador posee el doble mayor
-	for p_id in hands:
-		for tile in hands[p_id]:
+	for i in players.size():
+		for tile in players[i]["pieces"]:
 			if tile.is_double() and tile.v1 > best_double:
 				best_double = tile.v1
-				starter = p_id
-	
+				starter = i
 	if best_double != -1:
 		current_turn = starter
 		return
-	
 	# Si de casualidad, ningun juegador tiene un doble
 	# se elige el jugador con la pieza de mayor suma
 	var best_sum = -1
-	for p_id in hands:
-		for tile in hands[p_id]:
+	for i in players.size():
+		for tile in players[i]["pieces"]:
 			if tile.get_sum() > best_sum:
 				best_sum = tile.get_sum()
-				starter = p_id
-	
+				starter = i
 	current_turn = starter
 
-# Retorna la lista de piezas que son jugables
-func get_valid_moves(player_id: int) -> Array:
-	var valid = []
-	if board_pieces.size() == 0:
-		return hands[player_id].duplicate()
+# Trata de jugar una pieza
+func play_tile(tile: DominoData, side:int) -> void:
+	if open_ends[0] == -1:
+		open_ends = [tile.v1, tile.v2]
+	else:
+		# Actualiza info del estado del juego
+		if tile.v1 == open_ends[side]:
+			open_ends[side] = tile.v2
+		elif tile.v2 == open_ends[side]:
+			open_ends[side] = tile.v1
+		else:
+			return
 	
-	for tile in hands[player_id]:
-		if tile.v1 == open_ends[0] or tile.v2 == open_ends[0]:
-			valid.append(tile)
-		elif tile.v1 == open_ends[1] or tile.v2 == open_ends[1]:
-			valid.append(tile)
-	
-	return valid
-
-func play_tile(player_id: int, tile: DominoData, side: int, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> void:
-	board_pieces.append({"data": tile, "pos": pos, "rot": rot})
-	hands[player_id].erase(tile)
+	current_player["pieces"].erase(tile)
 	consecutive_passes = 0
 	
-	if hands[player_id].size() == 0:
-		end_game(player_id, "Domino!")
+	if current_player["pieces"].size() == 0:
+		end_game()
 	else:
 		advance_turn()
 
-func draw_piece() -> DominoData:
-	if boneyard.size() > 0:
+func draw_piece() -> void:
+	if boneyard.size() > 0 and can_draw:
 		var tile = boneyard.pop_back()
-		hands[current_turn].append(tile)
-		return tile
-	return null
+		current_player["pieces"].append(tile)
 
 func advance_turn():
 	current_turn += 1
-	current_turn %= hands.size()
+	current_turn %= players.size()
+	
+	set_current_player_val()
 	turn_changed.emit()
 
 func player_pass():
 	consecutive_passes += 1
-	if consecutive_passes >= hands.size():
-		end_game(-1, "Blocked")
-	else:
-		advance_turn()
+	if consecutive_passes >= players.size():
+		end_game()
+		return
+	advance_turn()
 
-func end_game(winner: int, _reason: String):
+func end_game():
 	game_over = true
-	if winner != -1:
-		winner_id = winner
-	else:
-		var p0 = get_hand_sum(0)
-		var p1 = get_hand_sum(1)
-		if p0 < p1: winner_id = 0
-		elif p1 < p0: winner_id = 1
-		else: winner_id = -1
+	var lowest_score:int = 1000000
+	var winner:int = -1
+	
+	for i in players.size():
+		var score:int = get_hand_sum(i)
+		if score < lowest_score:
+			lowest_score = score
+			winner_id = i
+		players[i]["score"] = score
+	
 	game_end.emit()
 
-func get_hand_sum(player_id: int) -> int:
-	var s = 0
-	for t in hands[player_id]: s += t.get_sum()
-	return s
+func get_hand_sum(player_idx: int) -> int:
+	var sum = 0
+	for domino in players[player_idx]["pieces"]:
+		sum += domino.get_sum()
+	return sum
 
 func get_half_positions(pos: Vector3, rot: Vector3) -> Array[Vector3]:
 	var b = Basis(Quaternion.from_euler(rot))

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cqumokumqdevd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m48y6"]
+bg_color = Color(0, 1, 0.470588, 0.501961)
+border_width_left = 9
+border_width_top = 9
+border_width_right = 9
+border_width_bottom = 9
+border_color = Color(0.25098, 0.92549, 0.717647, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0, 0.32549, 0, 0.6)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27xr5"]
+bg_color = Color(0, 1, 0.470588, 0.501961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.25098, 0.92549, 0.717647, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 12
+
+[node name="BtnJugar" type="Button" unique_id=973200782]
+offset_right = 256.0
+offset_bottom = 96.0
+focus_neighbor_right = NodePath("../BtnReglas")
+theme_override_styles/normal = SubResource("StyleBoxFlat_m48y6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_27xr5")
+text = "Jugar"
