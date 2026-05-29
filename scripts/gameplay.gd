@@ -2,6 +2,7 @@ extends Node
 
 signal turn_changed
 signal game_end
+signal piece_drawed
 
 class DominoData:
 	var v1: int
@@ -55,7 +56,7 @@ func init_game(player_amnt:int = 2):
 	# A cada jugador
 	for player in players:
 		# Dale 7 Piezas
-		for j in range(2):
+		for j in range(7):
 			player["pieces"].append(boneyard.pop_back())
 	# Determina el inicial
 	determine_starter()
@@ -109,6 +110,7 @@ func draw_piece() -> void:
 	if boneyard.size() > 0 and can_draw:
 		var tile = boneyard.pop_back()
 		current_player["pieces"].append(tile)
+		piece_drawed.emit()
 
 func advance_turn():
 	current_turn += 1

@@ -3,7 +3,12 @@
 [ext_resource type="Script" uid="uid://cgrafed1rwe2h" path="res://scenes/menu/pieza_domino_hud.gd" id="1_0h61j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_var5c"]
-bg_color = Color(0.86180425, 0.86180425, 0.861804, 1)
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 4
 
 [sub_resource type="Shader" id="Shader_var5c"]
 code = "shader_type canvas_item;
@@ -96,10 +101,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_var5c")
 
 [node name="piece" type="ColorRect" parent="." unique_id=1259976884]

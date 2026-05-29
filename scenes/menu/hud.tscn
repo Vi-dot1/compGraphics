@@ -31,30 +31,55 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 alignment = 2
 
-[node name="StatusLabel" type="Label" parent="Control" unique_id=1625984575]
+[node name="StatusLabel" type="RichTextLabel" parent="Control" unique_id=847531494]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
+offset_left = -280.0
 offset_top = 40.0
-offset_right = 200.0
-offset_bottom = 80.0
+offset_right = 288.0
+offset_bottom = 144.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "YOUR TURN"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "PON LA PRIMERA PIEZA, "
 horizontal_alignment = 1
 
-[node name="BoneyardLabel" type="Label" parent="Control" unique_id=1939426149]
+[node name="GAME!" type="RichTextLabel" parent="Control" unique_id=1196109863]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -304.0
+offset_top = 680.0
+offset_right = 303.0
+offset_bottom = 768.00024
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[wave]GAME!"
+horizontal_alignment = 1
+
+[node name="BoneyardLabel" type="RichTextLabel" parent="Control" unique_id=1513441277]
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
+offset_left = -280.0
 offset_top = 40.0
 offset_right = -40.0
 offset_bottom = 80.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 18
-text = "HUESERA: 14"
+pivot_offset = Vector2(-384, -992)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "HUESERA: "
 horizontal_alignment = 2
