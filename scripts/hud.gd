@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var game_end_sign = $"Control/GAME!"
 
 @onready var domino_hud_item = preload("uid://bkulr11a35dx")
+@onready var pointCount = preload("uid://cbnavmglhtv7q")
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -23,6 +24,9 @@ func _ready() -> void:
 
 var t_boneyard:Tween = null
 func on_drawn_piece() -> void:
+	if not Gameplay.can_draw:
+		return
+	
 	boneyard_label.clear()
 	boneyard_label.append_text("Huesera: ")
 	boneyard_label.push_color(Color.RED)
@@ -31,6 +35,7 @@ func on_drawn_piece() -> void:
 	boneyard_label.append_text(str(Gameplay.boneyard.size()))
 	
 	boneyard_label.show()
+	
 	if t_boneyard != null and t_boneyard.is_running():
 		return
 	t_boneyard = get_tree().create_tween()
@@ -58,6 +63,15 @@ func on_game_over() -> void:
 	for piece in container.get_children():
 		piece.queue_free()
 	
+	# Acomoda el leaderboard
+	var leaderBoard = $"Control/GAME!/Panel/MarginContainer/VBoxContainer"
+	for i in range(Gameplay.player_amnt):
+		var p = pointCount.instantiate()
+		
+		p.set_player_data(Gameplay.players[i], "Jugador "+str(i+1), Global.player_colors[i], Gameplay.winner_id == i)
+		leaderBoard.add_child(p)
+		
+	
 	var t:Tween = get_tree().create_tween()
 	t.set_trans(Tween.TRANS_BOUNCE)
 	t.set_ease(Tween.EASE_OUT)
@@ -80,6 +94,7 @@ func update_hand():
 func update_selected(idx:int, val:bool) -> void:
 	var domino:DominoHudVisual = container.get_child(idx)
 	domino.set_select(val)
+
 func create_domino_ui(data: Gameplay.DominoData, selected: bool) -> DominoHudVisual:
 	var domino:DominoHudVisual = domino_hud_item.instantiate()
 	domino.v1 = data["v1"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cog6si0dmriiv"]
 
 [ext_resource type="Script" uid="uid://dahm7h1ehi56g" path="res://scripts/planet.gd" id="1_mtr83"]
-[ext_resource type="Texture2D" uid="uid://dl8x3wfy4h5ax" path="res://assets/textures/planets/8k_saturn.jpg" id="2_h8ms6"]
+[ext_resource type="Texture2D" uid="uid://dmk3p0wt7hqf4" path="res://assets/textures/planets/venus.jpeg" id="2_h8ms6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0k1rn"]
 

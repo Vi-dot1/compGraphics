@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dp03yewmblyw1" path="res://scripts/main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cctmurv6swcch" path="res://scenes/gameplay/plane.tscn" id="2_0xm2m"]
-[ext_resource type="Texture2D" uid="uid://2am1jamblrst" path="res://assets/textures/Scene_-_Root_diffuse.jpeg" id="2_lquwl"]
+[ext_resource type="Texture2D" uid="uid://by8dmgugwtcl0" path="res://assets/textures/skybox/NightSkyHDRI005_4K_TONEMAPPED.jpg" id="2_oahny"]
 [ext_resource type="PackedScene" uid="uid://dhlgov2jnwpqr" path="res://scenes/gameplay/cursor.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://46inp0qj4guh" path="res://scenes/gameplay/orbitCamera.tscn" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://cog6si0dmriiv" path="res://scenes/planet.tscn" id="5_7mycd"]
@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://j35n00mnv8dp" path="res://assets/end.wav" id="10_4c57u"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7mycd"]
-panorama = ExtResource("2_lquwl")
+panorama = ExtResource("2_oahny")
 
 [sub_resource type="Sky" id="Sky_272bh"]
 sky_material = SubResource("PanoramaSkyMaterial_7mycd")

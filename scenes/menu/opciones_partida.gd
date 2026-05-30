@@ -4,6 +4,7 @@ extends Control
 @onready var num_juadores = $PanelOpciones/MarginContainer/VBoxContainer/jugadores/val
 @onready var pase_recarga:CheckBox = $PanelOpciones/MarginContainer/VBoxContainer/paseRecarga/val
 @onready var recarga:CheckBox = $PanelOpciones/MarginContainer/VBoxContainer/recarga/val
+@onready var mapa:ItemList = $PanelOpciones/MarginContainer/VBoxContainer/mapa/val
 
 @onready var rule_recarga:RichTextLabel = $PanelReglas/MarginContainer/VBoxContainer/cargaLibre
 @onready var rule_pase_recarga:RichTextLabel = $PanelReglas/MarginContainer/VBoxContainer/cargaPasa
@@ -16,10 +17,15 @@ func _ready() -> void:
 	
 	num_juadores.value = Gameplay.player_amnt
 	
+	
+	mapa.item_selected.connect(_on_map_selected)
 	flash.toggled.connect(_on_flash)
 	pase_recarga.toggled.connect(_on_pase_recarga)
 	recarga.toggled.connect(_on_recarga)
 	num_juadores.value_changed.connect(_on_num_jugadores)
+
+func _on_map_selected(idx:int) -> void:
+	Global.entorno = idx
 
 func _on_recarga(val:bool) -> void:
 	Gameplay.can_draw = val

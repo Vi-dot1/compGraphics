@@ -1,4 +1,5 @@
 extends Node3D
+class_name Planet
 @onready var meshNode = get_node("MeshInstance3D")
 
 @export var radius:float = 3
@@ -10,3 +11,6 @@ func _ready() -> void:
 func _update_mesh() -> void:
 	meshNode.scale = Vector3.ONE*radius
 	Global.planet_radius = radius
+
+func change_texture(texture:String) -> void:
+	$MeshInstance3D.mesh.material.albedo_texture = load(texture)

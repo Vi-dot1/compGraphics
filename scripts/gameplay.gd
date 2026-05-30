@@ -137,14 +137,13 @@ func player_pass():
 func end_game():
 	game_over = true
 	var lowest_score:int = 1000000
-	var winner:int = -1
 	
 	for i in players.size():
 		var score:int = get_hand_sum(i)
 		if score < lowest_score:
 			lowest_score = score
 			winner_id = i
-		players[i]["score"] = score
+		players[i]["points"] = score
 	
 	game_end.emit()
 

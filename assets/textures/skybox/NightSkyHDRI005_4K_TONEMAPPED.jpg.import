@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccght43emsfu7"
-path.s3tc="res://.godot/imported/mercury.jpg-dbceaec0842f296e32a010c6bd67223e.s3tc.ctex"
+uid="uid://by8dmgugwtcl0"
+path.s3tc="res://.godot/imported/NightSkyHDRI005_4K_TONEMAPPED.jpg-5c187313f5a29e55cc06872e2ef1cf7a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/planets/mercury.jpg"
-dest_files=["res://.godot/imported/mercury.jpg-dbceaec0842f296e32a010c6bd67223e.s3tc.ctex"]
+source_file="res://assets/textures/skybox/NightSkyHDRI005_4K_TONEMAPPED.jpg"
+dest_files=["res://.godot/imported/NightSkyHDRI005_4K_TONEMAPPED.jpg-5c187313f5a29e55cc06872e2ef1cf7a.s3tc.ctex"]
 
 [params]
 

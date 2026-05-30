@@ -140,6 +140,26 @@ scroll_active = false
 [node name="val" type="CheckBox" parent="PanelOpciones/MarginContainer/VBoxContainer/flash" unique_id=1466229286]
 layout_mode = 2
 
+[node name="mapa" type="HBoxContainer" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=2042445693]
+layout_mode = 2
+size_flags_vertical = 6
+tooltip_text = "Cuantos jugadores habra en partida"
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer/mapa" unique_id=1672322758]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "mapa"
+
+[node name="val" type="ItemList" parent="PanelOpciones/MarginContainer/VBoxContainer/mapa" unique_id=1302634847]
+layout_mode = 2
+auto_width = true
+auto_height = true
+item_count = 3
+item_0/text = "Gigante Gaseoso"
+item_1/text = "Big SUN"
+item_2/text = "Blue ball"
+
 [node name="PanelReglas" type="Panel" parent="." unique_id=163581311]
 layout_mode = 1
 anchors_preset = -1

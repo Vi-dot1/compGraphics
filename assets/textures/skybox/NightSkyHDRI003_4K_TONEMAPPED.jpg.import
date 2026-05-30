@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2am1jamblrst"
-path.s3tc="res://.godot/imported/Scene_-_Root_diffuse.jpeg-c132996a73eeb11c6ccadd13b4043b45.s3tc.ctex"
+uid="uid://dv6y6sgtbn70b"
+path.s3tc="res://.godot/imported/NightSkyHDRI003_4K_TONEMAPPED.jpg-fddd343d976a4a9750add1ab596caebf.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/Scene_-_Root_diffuse.jpeg"
-dest_files=["res://.godot/imported/Scene_-_Root_diffuse.jpeg-c132996a73eeb11c6ccadd13b4043b45.s3tc.ctex"]
+source_file="res://assets/textures/skybox/NightSkyHDRI003_4K_TONEMAPPED.jpg"
+dest_files=["res://.godot/imported/NightSkyHDRI003_4K_TONEMAPPED.jpg-fddd343d976a4a9750add1ab596caebf.s3tc.ctex"]
 
 [params]
 

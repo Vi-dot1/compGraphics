@@ -96,6 +96,7 @@ size_flags_vertical = 4
 script = ExtResource("1_0h61j")
 
 [node name="border" type="Panel" parent="." unique_id=790445141]
+visible = false
 custom_minimum_size = Vector2(24, 16)
 layout_mode = 1
 anchors_preset = -1

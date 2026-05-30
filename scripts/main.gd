@@ -5,7 +5,7 @@ extends Node3D
 @onready var cursor: Cursor = $cursor
 @onready var board:Board = $cam/plane
 @onready var hud = $HUD
-@onready var planet = $Planet
+@onready var planet:Planet = $Planet
 
 var selected_piece_index: int = 0
 var last_side_placed = -1
@@ -21,6 +21,9 @@ var right_snap: Dictionary = {"pos":Vector3.ZERO}
 var current_snap: Dictionary = {"valid": false}
 
 func _ready() -> void:
+	_set_skybox(Global.skybox_texture[Global.entorno])
+	planet.change_texture(Global.planet_texture[Global.entorno])
+	
 	Gameplay.init_game()
 	update_cursor_piece()
 	hud.update_hand()
@@ -33,6 +36,10 @@ func _ready() -> void:
 	
 	Gameplay.turn_changed.connect(_on_turn_changed)
 	Gameplay.game_end.connect(_on_game_end)
+
+
+func _set_skybox(texture:String) -> void:
+	$WorldEnvironment.environment.sky.sky_material.panorama = load(texture)
 
 func _on_turn_changed() -> void:
 	selected_piece_index = 0
@@ -146,7 +153,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		change_selection(1)
 	if event.is_action_pressed("prev_piece"):
 		change_selection(-1)
-	if event.is_action_pressed("get_piece"):
+	if event.is_action_pressed("get_piece") and Gameplay.can_draw:
 		Gameplay.draw_piece()
 		hud.update_hand()
 	if event.is_action_pressed("pass_turn"):
