@@ -1,0 +1,260 @@
+[gd_scene format=3 uid="uid://b8fdkibvnf6ev"]
+
+[ext_resource type="PackedScene" uid="uid://cqumokumqdevd" path="res://scenes/menu/boton.tscn" id="1_h607f"]
+[ext_resource type="Script" uid="uid://cfd0w78t085nr" path="res://scenes/menu/opciones_partida.gd" id="1_wxyao"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnttd"]
+bg_color = Color(1, 0.101961, 0.101961, 0.501961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.756863, 0.101961, 0.101961, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 18
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tylt"]
+bg_color = Color(0.666667, 0.0470588, 0.0666667, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0.552941, 0, 0, 0.6)
+shadow_size = 12
+
+[node name="OpcionesPartida" type="Control" unique_id=1855072809]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_wxyao")
+
+[node name="PanelOpciones" type="Panel" parent="." unique_id=1635094098]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = 688.0
+offset_bottom = 376.0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelOpciones" unique_id=267449737]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelOpciones/MarginContainer" unique_id=1467573096]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="space2" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=1697372511]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+
+[node name="Titulo" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=793228691]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
+text = "Opciones de juego"
+
+[node name="space" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=214592185]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+
+[node name="jugadores" type="HBoxContainer" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=461585807]
+layout_mode = 2
+tooltip_text = "Cuantos jugadores habra en partida"
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer/jugadores" unique_id=96208267]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Numero de juadores"
+
+[node name="val" type="SpinBox" parent="PanelOpciones/MarginContainer/VBoxContainer/jugadores" unique_id=1592589842]
+layout_mode = 2
+min_value = 2.0
+max_value = 4.0
+value = 2.0
+rounded = true
+
+[node name="recarga" type="HBoxContainer" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=888450334]
+layout_mode = 2
+tooltip_text = "Recarga cuantas piezas quieras"
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer/recarga" unique_id=682488340]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Recarga libre"
+
+[node name="val" type="CheckBox" parent="PanelOpciones/MarginContainer/VBoxContainer/recarga" unique_id=1002676485]
+layout_mode = 2
+
+[node name="paseRecarga" type="HBoxContainer" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=200332156]
+layout_mode = 2
+tooltip_text = "Fuerza a recargarte una pieza al pasar turno"
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="PanelOpciones/MarginContainer/VBoxContainer/paseRecarga" unique_id=124406559]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "recarga despues de pasar"
+
+[node name="val" type="CheckBox" parent="PanelOpciones/MarginContainer/VBoxContainer/paseRecarga" unique_id=689338274]
+layout_mode = 2
+
+[node name="flash" type="HBoxContainer" parent="PanelOpciones/MarginContainer/VBoxContainer" unique_id=1223926556]
+layout_mode = 2
+tooltip_text = "10 segundos para jugar o termina la partida!"
+metadata/_edit_group_ = true
+
+[node name="Label" type="RichTextLabel" parent="PanelOpciones/MarginContainer/VBoxContainer/flash" unique_id=36676910]
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.60784316)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+bbcode_enabled = true
+text = "[rainbow]MODO FLASH"
+fit_content = true
+scroll_active = false
+
+[node name="val" type="CheckBox" parent="PanelOpciones/MarginContainer/VBoxContainer/flash" unique_id=1466229286]
+layout_mode = 2
+
+[node name="PanelReglas" type="Panel" parent="." unique_id=163581311]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 672.0
+offset_top = 48.0
+offset_right = 1072.0
+offset_bottom = 376.0
+grow_horizontal = 2
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelReglas" unique_id=944328909]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelReglas/MarginContainer" unique_id=858173359]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="space2" type="Label" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1713294455]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+
+[node name="Titulo" type="Label" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1291412884]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
+text = "Reglas"
+
+[node name="space" type="Label" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1277470974]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+
+[node name="base1" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=2068696120]
+layout_mode = 2
+bbcode_enabled = true
+text = "-Cada jugador empieza con 7 fichas"
+fit_content = true
+
+[node name="base2" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1692020758]
+layout_mode = 2
+bbcode_enabled = true
+text = "-Empieza el jugador que tenga el mayor doble o la ficha de mayor valor"
+fit_content = true
+
+[node name="base3" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1263505199]
+layout_mode = 2
+bbcode_enabled = true
+text = "-Puedes pasar turno"
+fit_content = true
+
+[node name="cargaLibre" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=53737348]
+layout_mode = 2
+bbcode_enabled = true
+text = "-Puedes recargar fichas a gusto"
+fit_content = true
+
+[node name="cargaPasa" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=2042464679]
+layout_mode = 2
+bbcode_enabled = true
+text = "-al pasar te cargas una ficha automaticamente"
+fit_content = true
+
+[node name="flash" type="RichTextLabel" parent="PanelReglas/MarginContainer/VBoxContainer" unique_id=1906589712]
+layout_mode = 2
+bbcode_enabled = true
+text = "-TIENES 10 segundos para jugar tu turno"
+fit_content = true
+
+[node name="BtnComenzar" parent="." unique_id=973200782 instance=ExtResource("1_h607f")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 76.0
+offset_top = 472.0
+offset_right = 300.0
+offset_bottom = 544.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_neighbor_right = NodePath("")
+text = "Empezar Partida"
+
+[node name="BtnSalir" type="Button" parent="." unique_id=648571783]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 332.0
+offset_top = 472.0
+offset_right = 548.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rnttd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7tylt")
+text = "Volver"

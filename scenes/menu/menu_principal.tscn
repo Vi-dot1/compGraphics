@@ -5,33 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://c4dacea8qkgqu" path="res://scenes/menu/fondo.tscn" id="2_4mcpf"]
 [ext_resource type="AudioStream" uid="uid://d0xrppvekv5xt" path="res://assets/The_Great_Stellar_Tide.mp3" id="3_fug71"]
 [ext_resource type="PackedScene" uid="uid://cqumokumqdevd" path="res://scenes/menu/boton.tscn" id="4_3ujmp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uj5gr"]
-bg_color = Color(0, 0.8, 1, 0.501961)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(0, 0.529412, 1, 0.501961)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-shadow_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1u13"]
-bg_color = Color(0, 0.8, 1, 0.501961)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0.4, 0.952941, 0.501961)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-shadow_color = Color(0, 0, 0.431373, 0.6)
-shadow_size = 12
+[ext_resource type="PackedScene" uid="uid://b8fdkibvnf6ev" path="res://scenes/menu/opciones_partida.tscn" id="6_luowc"]
+[ext_resource type="AudioStream" uid="uid://cyd2fwb4f1v3t" path="res://assets/select.wav" id="7_ngrfs"]
+[ext_resource type="AudioStream" uid="uid://78xaktqiotxr" path="res://assets/explosion.wav" id="8_3vyha"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnttd"]
 bg_color = Color(1, 0.101961, 0.101961, 0.501961)
@@ -56,7 +32,66 @@ corner_radius_bottom_left = 25
 shadow_color = Color(0.552941, 0, 0, 0.6)
 shadow_size = 12
 
-[sub_resource type="Theme" id="Theme_luowc"]
+[sub_resource type="Animation" id="Animation_luowc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Principal:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpcionesPartida:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
+}
+
+[sub_resource type="Animation" id="Animation_ngrfs"]
+resource_name = "transition"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Principal:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -1.5707963267948966]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpcionesPartida:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5707964, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3vyha"]
+_data = {
+&"RESET": SubResource("Animation_luowc"),
+&"transition": SubResource("Animation_ngrfs")
+}
 
 [node name="Menu Principal" type="Control" unique_id=856757596]
 layout_mode = 3
@@ -72,45 +107,33 @@ metadata/_edit_lock_ = true
 
 [node name="Fondo" parent="." unique_id=1437510142 instance=ExtResource("2_4mcpf")]
 layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=930180722]
 stream = ExtResource("3_fug71")
 autoplay = true
 
-[node name="BtnJugar" parent="." unique_id=973200782 instance=ExtResource("4_3ujmp")]
+[node name="Principal" type="Control" parent="." unique_id=341220115]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BtnJugar" parent="Principal" unique_id=973200782 instance=ExtResource("4_3ujmp")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -136.0
-offset_top = -408.0
-offset_right = 120.0
-offset_bottom = -312.0
+offset_left = 420.0
+offset_top = 288.0
+offset_right = 676.0
+offset_bottom = 384.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_neighbor_right = NodePath("")
 
-[node name="BtnReglas" type="Button" parent="." unique_id=1965168912]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -136.0
-offset_top = -280.0
-offset_right = 120.0
-offset_bottom = -184.0
-grow_horizontal = 2
-grow_vertical = 0
-focus_neighbor_left = NodePath("../BtnJugar")
-focus_neighbor_right = NodePath("../BtnSalir")
-theme_override_styles/normal = SubResource("StyleBoxFlat_uj5gr")
-theme_override_styles/hover = SubResource("StyleBoxFlat_x1u13")
-text = "Reglas"
-
-[node name="BtnSalir" type="Button" parent="." unique_id=1084380647]
+[node name="BtnSalir" type="Button" parent="Principal" unique_id=1084380647]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 1
 anchors_preset = 7
@@ -118,57 +141,49 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -128.0
-offset_top = -144.0
-offset_right = 128.0
-offset_bottom = -48.0
+offset_left = 428.0
+offset_top = 440.0
+offset_right = 684.0
+offset_bottom = 536.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 0
-focus_neighbor_left = NodePath("../BtnReglas")
 theme_override_styles/normal = SubResource("StyleBoxFlat_rnttd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7tylt")
 text = "Salir"
 metadata/_edit_group_ = true
 
-[node name="CuadroReglas" type="FoldableContainer" parent="." unique_id=1783784048]
-visible = false
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 48.0
-offset_top = -292.0
-offset_right = 576.0
-offset_bottom = 92.0
-grow_vertical = 2
-theme = SubResource("Theme_luowc")
-title = "Reglas del Juego"
-
-[node name="Label" type="Label" parent="CuadroReglas" unique_id=20958031]
-layout_mode = 2
-size_flags_vertical = 1
-text = "El Juego solo se  puede jugar de 2 a 4 personas
-
-
-
-
-"
-
-[node name="Titulo" type="Label" parent="." unique_id=1310899607]
+[node name="Titulo" type="Label" parent="Principal" unique_id=1310899607]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -248.0
+offset_left = 263.5
 offset_top = 112.0
-offset_right = 264.0
+offset_right = 864.5
 offset_bottom = 180.0
 grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 64
 text = "Space Dominoes"
 
-[connection signal="pressed" from="BtnJugar" to="." method="_on_btn_jugar_pressed"]
-[connection signal="pressed" from="BtnReglas" to="." method="_on_btn_reglas_pressed"]
-[connection signal="pressed" from="BtnSalir" to="." method="_on_btn_salir_pressed"]
+[node name="OpcionesPartida" parent="." unique_id=1855072809 instance=ExtResource("6_luowc")]
+layout_mode = 0
+rotation = 1.5707964
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=446338003]
+libraries/ = SubResource("AnimationLibrary_3vyha")
+
+[node name="sfx" type="AudioStreamPlayer" parent="." unique_id=1686042202]
+stream = ExtResource("7_ngrfs")
+pitch_scale = 0.8
+
+[node name="sfx2" type="AudioStreamPlayer" parent="." unique_id=2016094069]
+stream = ExtResource("8_3vyha")
+pitch_scale = 0.8
+
+[connection signal="pressed" from="Principal/BtnSalir" to="." method="_on_btn_salir_pressed"]
+
+[editable path="OpcionesPartida"]

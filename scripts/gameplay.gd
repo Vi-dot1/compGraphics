@@ -26,14 +26,18 @@ var current_turn: int = 0
 var consecutive_passes: int = 0
 var open_ends:Array[int] = [-1, -1]
 
-var can_draw: bool = true
 var game_over: bool = false
 var winner_id: int = -1
 
 func set_current_player_val() -> void:
 	current_player = players[current_turn]
 
-func init_game(player_amnt:int = 2):
+var player_amnt:int = 2
+var can_draw: bool = true
+var draw_after_pass: bool = false
+var flash: bool = false
+
+func init_game():
 	boneyard.clear()
 	
 	# Para evitar que un chistoso meta -2 jugadores
@@ -124,6 +128,10 @@ func player_pass():
 	if consecutive_passes >= players.size():
 		end_game()
 		return
+	
+	if draw_after_pass:
+		draw_piece()
+	
 	advance_turn()
 
 func end_game():

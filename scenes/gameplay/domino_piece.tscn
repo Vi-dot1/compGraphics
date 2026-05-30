@@ -3,7 +3,11 @@
 [ext_resource type="Script" uid="uid://cjxuq5idww44y" path="res://scripts/domino_piece.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://ct28it60hdqbq" path="res://piece_shader_material.tres" id="2_pxjxu"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pxjxu"]
+metallic = 0.4
+
 [sub_resource type="BoxMesh" id="BoxMesh_1"]
+material = SubResource("StandardMaterial3D_pxjxu")
 size = Vector3(2, 0.2, 1)
 
 [node name="DominoPiece" type="Node3D" unique_id=111497804]
@@ -11,6 +15,9 @@ script = ExtResource("1_script")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=539018278]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0, 0)
+transparency = 0.5
+cast_shadow = 0
+gi_mode = 0
 mesh = SubResource("BoxMesh_1")
 surface_material_override/0 = ExtResource("2_pxjxu")
 

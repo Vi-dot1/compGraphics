@@ -40,3 +40,7 @@ func place(data: Gameplay.DominoData, snap: Dictionary, horizontal:bool = true):
 	
 	# Get piece ref
 	lastPlaced = piece
+
+
+func move_pieces() -> void:
+	pass

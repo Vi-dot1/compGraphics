@@ -8,6 +8,6 @@ shader = ExtResource("1_i0kok")
 shader_parameter/albedo = Color(0.05, 0.05, 0.1, 1)
 shader_parameter/pip_color = Color(0.8, 0.9, 1, 1)
 shader_parameter/edge_color = Color(0.3, 0.5, 1, 1)
-shader_parameter/emission_strength = 2.000000095
+shader_parameter/emission_strength = 1.5000000712500001
 shader_parameter/val1 = 0
 shader_parameter/val2 = 0

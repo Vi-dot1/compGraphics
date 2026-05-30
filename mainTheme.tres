@@ -47,7 +47,8 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 shadow_color = Color(0, 0, 0.431373, 0.6)
-shadow_size = 12
+shadow_size = 14
+shadow_offset = Vector2(1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uj5gr"]
 bg_color = Color(0, 0.8, 1, 0.501961)
@@ -62,9 +63,13 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 shadow_size = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_re4k2"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [resource]
 default_font = ExtResource("1_re4k2")
 Button/styles/disabled = SubResource("StyleBoxFlat_luowc")
 Button/styles/focus = SubResource("StyleBoxFlat_ngrfs")
 Button/styles/hover = SubResource("StyleBoxFlat_x1u13")
 Button/styles/normal = SubResource("StyleBoxFlat_uj5gr")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_re4k2")

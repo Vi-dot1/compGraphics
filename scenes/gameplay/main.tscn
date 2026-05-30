@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cctmurv6swcch" path="res://scenes/gameplay/plane.tscn" id="2_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://2am1jamblrst" path="res://assets/textures/Scene_-_Root_diffuse.jpeg" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dhlgov2jnwpqr" path="res://scenes/gameplay/cursor.tscn" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://46inp0qj4guh" path="res://scenes/orbitCamera.tscn" id="4_272bh"]
+[ext_resource type="PackedScene" uid="uid://46inp0qj4guh" path="res://scenes/gameplay/orbitCamera.tscn" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://cog6si0dmriiv" path="res://scenes/planet.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://bv8v7u8v7u8v" path="res://scenes/menu/hud.tscn" id="6_hud"]
 [ext_resource type="AudioStream" uid="uid://cenxntl8vn8m6" path="res://assets/WhatsApp Audio 2026-05-24 at 10.27.24 AM.mp3" id="8_5vw27"]
@@ -26,6 +26,19 @@ glow_enabled = true
 [node name="main" type="Node3D" unique_id=1657856518]
 script = ExtResource("1_h2yge")
 
+[node name="MainSun" type="DirectionalLight3D" parent="." unique_id=1839999489]
+transform = Transform3D(-0.8675896, 0.09751292, -0.48762643, -0.49303597, -0.29652727, 0.8179163, -0.064837135, 0.9500331, 0.30534133, 0, 0, 0)
+light_color = Color(0.72156864, 0.7372549, 0.6509804, 1)
+light_volumetric_fog_energy = 3.0
+light_angular_distance = 2.0
+shadow_enabled = true
+
+[node name="BigStar" type="DirectionalLight3D" parent="." unique_id=589117853]
+transform = Transform3D(0.7997373, -0.5095496, 0.3174576, -0.42667538, -0.1104233, 0.8976384, -0.42233658, -0.8533263, -0.305722, 0, 0, 0)
+light_color = Color(0.8418727, 0.71302074, 0.34383035, 1)
+light_energy = 0.1
+shadow_enabled = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2059558303]
 environment = SubResource("Environment_5vw27")
 
@@ -33,6 +46,8 @@ environment = SubResource("Environment_5vw27")
 
 [node name="Planet" parent="." unique_id=1606943498 instance=ExtResource("5_7mycd")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+radius = 0.5
+main = true
 metadata/_edit_group_ = true
 
 [node name="cam" parent="." unique_id=171612227 instance=ExtResource("4_272bh")]
@@ -44,7 +59,7 @@ transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.9999999, 0, 0.9999999, -4
 
 [node name="backgroundMusic" type="AudioStreamPlayer" parent="." unique_id=17341693]
 stream = ExtResource("8_5vw27")
-volume_db = 0.2
+volume_db = -7.0
 autoplay = true
 parameters/looping = true
 
@@ -55,6 +70,3 @@ volume_db = 0.2
 [node name="sfx2" type="AudioStreamPlayer" parent="." unique_id=1112022355]
 stream = ExtResource("10_4c57u")
 volume_db = 0.2
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=6558109]
-transform = Transform3D(0.9331858, 0, 0.35939428, 0, 1, 0, -0.35939428, 0, 0.9331858, 5, 0, 0.7701255)

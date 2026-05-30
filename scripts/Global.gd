@@ -10,6 +10,8 @@ var player_colors:Array[Color] = [
 	Color(0.755, 0.123, 0.0, 1.0)
 ]
 
+
+
 func _create_placement_particles(pos: Vector3) -> Node3D:
 	var particles:CPUParticles3D = placement_particles_scn.instantiate()
 	particles.position = pos

@@ -20,6 +20,8 @@ func _ready() -> void:
 	if Gameplay.can_draw:
 		on_drawn_piece()
 
+
+var t_boneyard:Tween = null
 func on_drawn_piece() -> void:
 	boneyard_label.clear()
 	boneyard_label.append_text("Huesera: ")
@@ -28,13 +30,17 @@ func on_drawn_piece() -> void:
 	boneyard_label.push_outline_color(Color.WHITE)
 	boneyard_label.append_text(str(Gameplay.boneyard.size()))
 	
-	var t:Tween = get_tree().create_tween()
-	t.set_ease(Tween.EASE_IN)
-	
-	t.tween_property(boneyard_label, "position", boneyard_label.position+Vector2(5,0), 0.1)
-	t.tween_property(boneyard_label, "position", boneyard_label.position-Vector2(10,0), 0.1)
-	t.tween_property(boneyard_label, "position", boneyard_label.position+Vector2(5,0), 0.1)
 	boneyard_label.show()
+	if t_boneyard != null and t_boneyard.is_running():
+		return
+	t_boneyard = get_tree().create_tween()
+	t_boneyard.set_ease(Tween.EASE_IN)
+	
+	t_boneyard.tween_property(boneyard_label, "position", boneyard_label.position+Vector2(5,0), 0.2)
+	t_boneyard.tween_property(boneyard_label, "position", boneyard_label.position-Vector2(5,0), 0.1)
+	t_boneyard.tween_property(boneyard_label, "position", boneyard_label.position+Vector2(0,5), 0.2)
+	t_boneyard.tween_property(boneyard_label, "position", boneyard_label.position-Vector2(0,5), 0.1)
+	
 
 func on_turn_change() -> void:
 	status_label.clear()
@@ -44,14 +50,11 @@ func on_turn_change() -> void:
 	
 	status_label.push_color(Global.player_colors[Gameplay.current_turn])
 	status_label.append_text("Jugador " + str(Gameplay.current_turn+1))
-	
-	var t:Tween = get_tree().create_tween()
-	t.set_ease(Tween.EASE_IN_OUT)
-	t.tween_property(status_label, "visible_ratio", 1.0, 1.2)
-	t.play()
 
 func on_game_over() -> void:
 	status_label.text = ""
+	boneyard_label.clear()
+	
 	for piece in container.get_children():
 		piece.queue_free()
 	
@@ -73,6 +76,7 @@ func update_hand():
 		var piece_ui = create_domino_ui(data, first)
 		first = false
 		container.add_child(piece_ui)
+
 func update_selected(idx:int, val:bool) -> void:
 	var domino:DominoHudVisual = container.get_child(idx)
 	domino.set_select(val)

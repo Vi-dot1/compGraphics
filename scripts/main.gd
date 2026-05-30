@@ -14,8 +14,8 @@ var last_side_placed = -1
 # "pos" = the EDGE of the last piece on that side (where the next piece touches).
 # "normal" = direction pointing OUTWARD from the chain.
 # "value" = the pip number exposed on that end.
-var left_snap: Dictionary = {}
-var right_snap: Dictionary = {}
+var left_snap: Dictionary = {"pos":Vector3.ZERO}
+var right_snap: Dictionary = {"pos":Vector3.ZERO}
 
 # The computed snap result for the current frame
 var current_snap: Dictionary = {"valid": false}
@@ -70,7 +70,7 @@ func _process(_delta: float) -> void:
 	if Gameplay.open_ends[0] == -1:
 		cursor.position = round(hit)
 		
-		current_snap = {"valid": true, "side": -1, "pos": cursor.position, "rot": cursor.current_piece_visual.rotation}
+		current_snap = {"valid": true, "side": -1, "pos": board.fix_piece_distance_to_radius(cursor.position), "rot": cursor.current_piece_visual.rotation}
 		cursor.free = true
 		cursor._cursor_piece_state_valid(true)
 		
@@ -137,6 +137,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var data = Gameplay.current_player["pieces"][selected_piece_index]
 			_do_place_piece(data, current_snap)
 	
+	# La innombrable
 	if event.is_action_pressed("rotate_piece"):
 		#cursor.rotate_piece()
 		pass
@@ -150,9 +151,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		hud.update_hand()
 	if event.is_action_pressed("pass_turn"):
 		Gameplay.player_pass()
+	
+	
+	if event.is_action_pressed("goto_side_left") and cursor.global_position.distance_to(left_snap["pos"]) > 1:
+		cameraRot.rot_to(left_snap["pos"])
+	if event.is_action_pressed("goto_side_right") and cursor.global_position.distance_to(right_snap["pos"]) > 1:
+		cameraRot.rot_to(right_snap["pos"])
+	
 
 # --- Placement ---
 func _do_place_piece(data: Gameplay.DominoData, snap: Dictionary):
+	cameraRot.blocked = false
+	
 	# Spawn 3D piece
 	board.place(data, snap, cursor.horizontal)
 	last_side_placed = snap["side"]
