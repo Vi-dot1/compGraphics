@@ -4,10 +4,12 @@ extends CanvasLayer
 @onready var status_label = $Control/StatusLabel
 @onready var boneyard_label = $Control/BoneyardLabel
 
+@onready var timer_label = $timerLabel
 @onready var game_end_sign = $"Control/GAME!"
 
 @onready var domino_hud_item = preload("uid://bkulr11a35dx")
 @onready var pointCount = preload("uid://cbnavmglhtv7q")
+
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -20,7 +22,13 @@ func _ready() -> void:
 	
 	if Gameplay.can_draw:
 		on_drawn_piece()
+	
 
+func _process(delta: float) -> void:
+	if Gameplay.timer != null:
+		timer_label.show()
+		timer_label.clear()
+		timer_label.append_text("[shake]"+str(int(Gameplay.timer.time_left)))
 
 var t_boneyard:Tween = null
 func on_drawn_piece() -> void:
@@ -57,6 +65,7 @@ func on_turn_change() -> void:
 	status_label.append_text("Jugador " + str(Gameplay.current_turn+1))
 
 func on_game_over() -> void:
+	set_process(false)
 	status_label.text = ""
 	boneyard_label.clear()
 	

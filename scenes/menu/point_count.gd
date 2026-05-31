@@ -11,6 +11,10 @@ func set_player_data(player_data:Dictionary, player_name:String, player_color:Co
 		p.v1 = piece.v1
 		p.v2 = piece.v2
 		p.custom_minimum_size *= 1.2
+		p.set_select(true)
 		$piezas.add_child(p)
+	var label = Label.new()
+	label.text = "         ("+str($piezas.get_child_count())+(" piezas)" if $piezas.get_child_count() > 1 else " pieza)") 
+	$piezas.add_child(label)
 	
 	$puntos.append_text(str(player_data["points"]))

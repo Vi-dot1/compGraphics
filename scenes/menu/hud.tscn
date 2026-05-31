@@ -12,6 +12,7 @@ shader_parameter/dithering = true
 script = ExtResource("1_script")
 
 [node name="TextureRect" type="ColorRect" parent="." unique_id=1133471174]
+visible = false
 material = SubResource("ShaderMaterial_vk7pd")
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,3 +126,15 @@ theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "HUESERA: "
 horizontal_alignment = 2
+
+[node name="timerLabel" type="RichTextLabel" parent="." unique_id=468953398]
+visible = false
+offset_left = 48.0
+offset_top = 56.0
+offset_right = 192.0
+offset_bottom = 168.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "10"

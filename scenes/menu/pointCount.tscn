@@ -23,7 +23,7 @@ vertical_alignment = 1
 
 [node name="piezas" type="HBoxContainer" parent="." unique_id=623285449]
 layout_mode = 2
-theme_override_constants/separation = -32
+theme_override_constants/separation = -16
 alignment = 1
 
 [node name="puntos" type="RichTextLabel" parent="." unique_id=1348886420]

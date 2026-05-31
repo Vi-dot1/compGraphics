@@ -28,6 +28,7 @@ var open_ends:Array[int] = [-1, -1]
 
 var game_over: bool = false
 var winner_id: int = -1
+var timer:Timer = null
 
 func set_current_player_val() -> void:
 	current_player = players[current_turn]
@@ -65,6 +66,14 @@ func init_game():
 	# Determina el inicial
 	determine_starter()
 	set_current_player_val()
+	
+	# Crea timer para modo flash
+	if flash:
+		timer = Timer.new()
+		
+		timer.wait_time = 11
+		timer.timeout.connect(end_game)
+		add_child(timer)
 
 # Determina jugada inicial
 func determine_starter():
@@ -91,8 +100,16 @@ func determine_starter():
 
 # Trata de jugar una pieza
 func play_tile(tile: DominoData, side:int) -> void:
+	
+	# se pone la primera pieza
 	if open_ends[0] == -1:
 		open_ends = [tile.v1, tile.v2]
+		
+		# Queda feo inyectar esta logica aca, pero que va hacer roca
+		# evaluar mi codigo? JSJSJSJSJSJSJSJSJJSJSJ
+		if flash and timer != null: 
+			timer.start()
+		
 	else:
 		# Actualiza info del estado del juego
 		if tile.v1 == open_ends[side]:
@@ -117,6 +134,8 @@ func draw_piece() -> void:
 		piece_drawed.emit()
 
 func advance_turn():
+	if timer != null:
+		timer.start()
 	current_turn += 1
 	current_turn %= players.size()
 	
@@ -135,6 +154,9 @@ func player_pass():
 	advance_turn()
 
 func end_game():
+	if timer != null:
+		timer.stop()
+	
 	game_over = true
 	var lowest_score:int = 1000000
 	
