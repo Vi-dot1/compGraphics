@@ -1,0 +1,189 @@
+[gd_scene format=3 uid="uid://c2pf8bhxlqp1m"]
+
+[ext_resource type="Theme" uid="uid://dkcvewf2css5x" path="res://mainTheme.tres" id="1_3ujmp"]
+[ext_resource type="Script" uid="uid://44d1e7eaxd3j" path="res://scripts/Menu Principal.gd" id="1_go50j"]
+[ext_resource type="PackedScene" uid="uid://c4dacea8qkgqu" path="res://scenes/menu/fondo.tscn" id="2_4mcpf"]
+[ext_resource type="AudioStream" uid="uid://d0xrppvekv5xt" path="res://assets/The_Great_Stellar_Tide.mp3" id="3_fug71"]
+[ext_resource type="PackedScene" uid="uid://cqumokumqdevd" path="res://scenes/menu/boton.tscn" id="4_3ujmp"]
+[ext_resource type="PackedScene" uid="uid://b8fdkibvnf6ev" path="res://scenes/menu/opciones_partida.tscn" id="6_luowc"]
+[ext_resource type="AudioStream" uid="uid://cyd2fwb4f1v3t" path="res://assets/select.wav" id="7_ngrfs"]
+[ext_resource type="AudioStream" uid="uid://78xaktqiotxr" path="res://assets/explosion.wav" id="8_3vyha"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rnttd"]
+bg_color = Color(1, 0.101961, 0.101961, 0.501961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.756863, 0.101961, 0.101961, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 18
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tylt"]
+bg_color = Color(0.666667, 0.0470588, 0.0666667, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0.552941, 0, 0, 0.6)
+shadow_size = 12
+
+[sub_resource type="Animation" id="Animation_luowc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Principal:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpcionesPartida:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
+}
+
+[sub_resource type="Animation" id="Animation_ngrfs"]
+resource_name = "transition"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Principal:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -1.5707963267948966]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OpcionesPartida:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5707964, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3vyha"]
+_data = {
+&"RESET": SubResource("Animation_luowc"),
+&"transition": SubResource("Animation_ngrfs")
+}
+
+[node name="Menu Principal" type="Control" unique_id=856757596]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme = ExtResource("1_3ujmp")
+script = ExtResource("1_go50j")
+metadata/_edit_lock_ = true
+
+[node name="Fondo" parent="." unique_id=1437510142 instance=ExtResource("2_4mcpf")]
+layout_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=930180722]
+stream = ExtResource("3_fug71")
+autoplay = true
+
+[node name="Principal" type="Control" parent="." unique_id=341220115]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BtnJugar" parent="Principal" unique_id=973200782 instance=ExtResource("4_3ujmp")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 288.0
+offset_right = 676.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_neighbor_right = NodePath("")
+
+[node name="BtnSalir" type="Button" parent="Principal" unique_id=1084380647]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 428.0
+offset_top = 440.0
+offset_right = 684.0
+offset_bottom = 536.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rnttd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7tylt")
+text = "Salir"
+metadata/_edit_group_ = true
+
+[node name="Titulo" type="Label" parent="Principal" unique_id=1310899607]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 263.5
+offset_top = 112.0
+offset_right = 864.5
+offset_bottom = 180.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 64
+text = "Space Dominoes"
+
+[node name="OpcionesPartida" parent="." unique_id=1855072809 instance=ExtResource("6_luowc")]
+layout_mode = 0
+rotation = 1.5707964
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=446338003]
+libraries/ = SubResource("AnimationLibrary_3vyha")
+
+[node name="sfx" type="AudioStreamPlayer" parent="." unique_id=1686042202]
+stream = ExtResource("7_ngrfs")
+pitch_scale = 0.8
+
+[node name="sfx2" type="AudioStreamPlayer" parent="." unique_id=2016094069]
+stream = ExtResource("8_3vyha")
+pitch_scale = 0.8
+
+[connection signal="pressed" from="Principal/BtnSalir" to="." method="_on_btn_salir_pressed"]
+
+[editable path="OpcionesPartida"]

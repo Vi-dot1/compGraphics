@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://cbnavmglhtv7q"]
+
+[ext_resource type="Script" uid="uid://cvpux1ph2q7q7" path="res://scenes/menu/point_count.gd" id="1_rfdbw"]
+
+[node name="Counter" type="HBoxContainer" unique_id=1669129329]
+offset_right = 256.0
+offset_bottom = 72.0
+theme_override_constants/separation = 82
+alignment = 1
+script = ExtResource("1_rfdbw")
+
+[node name="nombre" type="RichTextLabel" parent="." unique_id=1769471479]
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="piezas" type="HBoxContainer" parent="." unique_id=623285449]
+layout_mode = 2
+theme_override_constants/separation = -16
+alignment = 1
+
+[node name="puntos" type="RichTextLabel" parent="." unique_id=1348886420]
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+vertical_alignment = 1

@@ -1,0 +1,75 @@
+[gd_resource type="Theme" format=3 uid="uid://dkcvewf2css5x"]
+
+[ext_resource type="FontFile" uid="uid://0gww7hqq34bq" path="res://assets/Boa Construktor.ttf" id="1_re4k2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luowc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngrfs"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1u13"]
+bg_color = Color(0, 0.8, 1, 0.501961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0.4, 0.952941, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0, 0, 0.431373, 0.6)
+shadow_size = 14
+shadow_offset = Vector2(1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uj5gr"]
+bg_color = Color(0, 0.8, 1, 0.501961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0.529412, 1, 0.501961)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_re4k2"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[resource]
+default_font = ExtResource("1_re4k2")
+Button/styles/disabled = SubResource("StyleBoxFlat_luowc")
+Button/styles/focus = SubResource("StyleBoxFlat_ngrfs")
+Button/styles/hover = SubResource("StyleBoxFlat_x1u13")
+Button/styles/normal = SubResource("StyleBoxFlat_uj5gr")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_re4k2")

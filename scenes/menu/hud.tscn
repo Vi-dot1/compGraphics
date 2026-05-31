@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://bv8v7u8v7u8v"]
+
+[ext_resource type="Script" uid="uid://dvdtw3gaj5sch" path="res://scripts/hud.gd" id="1_script"]
+[ext_resource type="Shader" uid="uid://d0nnyv4qnbktf" path="res://dither.gdshader" id="2_b0i4a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vk7pd"]
+shader = ExtResource("2_b0i4a")
+shader_parameter/bits = 34
+shader_parameter/dithering = true
+
+[node name="HUD" type="CanvasLayer" unique_id=763324755]
+script = ExtResource("1_script")
+
+[node name="TextureRect" type="ColorRect" parent="." unique_id=1133471174]
+visible = false
+material = SubResource("ShaderMaterial_vk7pd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Control" type="Control" parent="." unique_id=48678976]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=1913698210]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -392.0
+offset_right = 128.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Control/MarginContainer" unique_id=1141505665]
+layout_mode = 2
+alignment = 2
+
+[node name="StatusLabel" type="RichTextLabel" parent="Control" unique_id=847531494]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 40.0
+offset_right = 288.0
+offset_bottom = 144.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "PON LA PRIMERA PIEZA, "
+horizontal_alignment = 1
+
+[node name="GAME!" type="RichTextLabel" parent="Control" unique_id=1196109863]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -304.0
+offset_top = 680.0
+offset_right = 303.0
+offset_bottom = 768.00024
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[wave]GAME!"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="Control/GAME!" unique_id=297955271]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -319.5
+offset_top = 88.0
+offset_right = 320.5
+offset_bottom = 344.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/GAME!/Panel" unique_id=1063455535]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/GAME!/Panel/MarginContainer" unique_id=1000232065]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BoneyardLabel" type="RichTextLabel" parent="Control" unique_id=1513441277]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -280.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 80.0
+grow_horizontal = 0
+pivot_offset = Vector2(-384, -992)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "HUESERA: "
+horizontal_alignment = 2
+
+[node name="timerLabel" type="RichTextLabel" parent="." unique_id=468953398]
+visible = false
+offset_left = 48.0
+offset_top = 56.0
+offset_right = 192.0
+offset_bottom = 168.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "10"

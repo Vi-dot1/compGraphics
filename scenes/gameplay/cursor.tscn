@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dhlgov2jnwpqr"]
+
+[ext_resource type="Script" uid="uid://bsbakesi7nuqi" path="res://scripts/cursor.gd" id="1_fsq4c"]
+[ext_resource type="PackedScene" uid="uid://dm1p2cew6y1qy" path="res://scenes/gameplay/domino_piece.tscn" id="2_5l68f"]
+
+[node name="cursor" type="Node3D" unique_id=641469687]
+script = ExtResource("1_fsq4c")
+
+[node name="DominoPiece" parent="." unique_id=731853058 instance=ExtResource("2_5l68f")]

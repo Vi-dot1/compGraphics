@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cctmurv6swcch"]
+
+[ext_resource type="Script" uid="uid://3sn0n3oh4jmv" path="res://scripts/plane.gd" id="1_ll2mb"]
+
+[node name="plane" type="Node3D" unique_id=1747583283]
+script = ExtResource("1_ll2mb")
