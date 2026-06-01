@@ -1,8 +1,10 @@
 extends Node
 
 signal turn_changed
+signal piece_played
 signal game_end
 signal piece_drawed
+signal turn_passed
 
 class DominoData:
 	var v1: int
@@ -24,6 +26,7 @@ var current_player: Dictionary
 
 var current_turn: int = 0
 var consecutive_passes: int = 0
+var max_passes: int = 3
 var open_ends:Array[int] = [-1, -1]
 
 var game_over: bool = false
@@ -48,6 +51,8 @@ func init_game():
 	for i in range(player_amnt):
 		var player_data:Dictionary = {"pieces":[], "points":0}
 		players.append(player_data)
+	
+	max_passes = player_amnt + 1
 	
 	game_over = false
 	winner_id = -1
@@ -122,6 +127,8 @@ func play_tile(tile: DominoData, side:int) -> void:
 	current_player["pieces"].erase(tile)
 	consecutive_passes = 0
 	
+	piece_played.emit()
+	
 	if current_player["pieces"].size() == 0:
 		end_game()
 	else:
@@ -144,7 +151,8 @@ func advance_turn():
 
 func player_pass():
 	consecutive_passes += 1
-	if consecutive_passes >= players.size():
+	turn_passed.emit()
+	if consecutive_passes >= max_passes:
 		end_game()
 		return
 	
