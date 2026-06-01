@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://cgfp51438vjdj"]
+
+[ext_resource type="Script" uid="uid://ds4clvkyuvq07" path="res://scenes/menu/pass_indicator.gd" id="1_yj564"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yjas2"]
+bg_color = Color(0.06639761, 0.053001404, 0.030923277, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5hta"]
+bg_color = Color(0.36585754, 0.3407853, 0.5677022, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[node name="passIndicator" type="Panel" unique_id=1698747760]
+custom_minimum_size = Vector2(56, 56)
+anchors_preset = -1
+anchor_right = 0.056
+anchor_bottom = 0.09900001
+offset_right = 7.487999
+offset_bottom = 7.847992
+theme_override_styles/panel = SubResource("StyleBoxFlat_yjas2")
+script = ExtResource("1_yj564")
+
+[node name="Panel2" type="Panel" parent="." unique_id=1858982675]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_p5hta")
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Panel2" unique_id=930045584]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "P"
+horizontal_alignment = 1
+vertical_alignment = 1

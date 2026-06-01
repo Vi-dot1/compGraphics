@@ -10,12 +10,20 @@ extends CanvasLayer
 @onready var domino_hud_item = preload("uid://bkulr11a35dx")
 @onready var pointCount = preload("uid://cbnavmglhtv7q")
 
+@onready var pass_indicator = preload("uid://cgfp51438vjdj")
+
 
 func _ready() -> void:
 	await get_tree().process_frame
 	Gameplay.turn_changed.connect(on_turn_change)
 	Gameplay.game_end.connect(on_game_over)
 	Gameplay.piece_drawed.connect(on_drawn_piece)
+	Gameplay.turn_passed.connect(on_turn_passed)
+	Gameplay.piece_played.connect(on_piece_played)
+	
+	for i in range(Gameplay.max_passes):
+		var p = pass_indicator.instantiate()
+		$passedTurns.add_child(p)
 	
 	status_label.push_color(Global.player_colors[Gameplay.current_turn])
 	status_label.append_text("Jugador " + str(Gameplay.current_turn+1))
@@ -63,6 +71,16 @@ func on_turn_change() -> void:
 	
 	status_label.push_color(Global.player_colors[Gameplay.current_turn])
 	status_label.append_text("Jugador " + str(Gameplay.current_turn+1))
+
+func on_piece_played() -> void:
+	for p in $passedTurns.get_children():
+		p.set_pass(false)
+
+func on_turn_passed() -> void:
+	for p in $passedTurns.get_children():
+		if not p.is_pass_set():
+			p.set_pass(true)
+			break
 
 func on_game_over() -> void:
 	set_process(false)
