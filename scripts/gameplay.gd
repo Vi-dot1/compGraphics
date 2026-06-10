@@ -43,6 +43,8 @@ var flash: bool = false
 
 func init_game():
 	boneyard.clear()
+	game_over = false
+	open_ends = [-1, -1]
 	
 	# Para evitar que un chistoso meta -2 jugadores
 	if player_amnt < 2:
@@ -163,7 +165,8 @@ func player_pass():
 
 func end_game():
 	if timer != null:
-		timer.stop()
+		timer.queue_free()
+	consecutive_passes = 0
 	
 	game_over = true
 	var lowest_score:int = 1000000

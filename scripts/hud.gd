@@ -131,3 +131,7 @@ func create_domino_ui(data: Gameplay.DominoData, selected: bool) -> DominoHudVis
 	domino.custom_minimum_size *= 2
 	return domino
 #endregion
+
+
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("uid://c2pf8bhxlqp1m")
